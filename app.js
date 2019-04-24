@@ -8,10 +8,8 @@
 
  const usersRoutes = require('./api/routes/users');
  const hallsRoutes = require('./api/routes/halls');
- const port = process.env.PORT || 3000;
- app.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-}); 
+ const port = process.env.PORT || 4000;
+
  mongoose.connect(
   //  "mongodb+srv://GroomAndBride:" + process.env.MONGO_ATLAS_PW + "@cluster0-jwktt.mongodb.net/test?retryWrites=true",
   "mongodb+srv://GroomAndBride:123123123@groomandbridecluster-jwktt.mongodb.net/test?retryWrites=true",
