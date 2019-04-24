@@ -8,7 +8,7 @@
 
  const usersRoutes = require('./api/routes/users');
  const hallsRoutes = require('./api/routes/halls');
- const port = process.env.PORT || 8000;
+ const port = process.env.PORT || 3001;
  server.listen(port, () => {
   console.log("App is running on port " + port);
 }); 
