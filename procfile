@@ -1,3 +1,2 @@
-
-web: waitress-serve --port=$PORT hidden-ocean-87285.wsgi:application
+web: node index.js
 
