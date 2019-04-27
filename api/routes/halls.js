@@ -3,6 +3,7 @@ const router = express.Router();
 const hall = require('../models/hall');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const fs = require('fs');
 
 const checkAuth = require('../middleware/check-auth');
 
@@ -90,17 +91,35 @@ router.get('/:HallID', (req, res, next) => { // get hall info by id
 
 // delete request
 //--------------------------------------------------------------------------------------------------
-router.delete('/:HallID', (req, res, nect) => { // delete hall by id
-   const id = req.params.HallID;
-    hall.remove({ _id: id }).exec().then(result => {
-        res.status(200).json({
-            message: 'Hall Deleted'
-        });
-    }).catch(error => {
-        console.log(error);
-        res.status(500).json({error: error});
-    });     
-});
+router.delete('/:HallID', (req, res, next) => { // delete hall by id
+    const id = req.params.HallID;
+ 
+    hall.findById(id).exec().then(doc => {  // get hall data from database by id
+             if (doc){ // if hall data exsist
+                 hall.deleteOne({ _id: id }).exec().then(result => { // delete hall data from database
+ 
+                     for(var i = 0; i < doc.hallImage.length; i++){ // loop on hall images 
+                         fs.unlink('./uploads/'+doc.hallImage[i], (error) =>{ // delete each image from uploads folder
+          
+                         });
+                     } // loop end
+                     
+                     return res.status(200).json({
+                         message: 'hall deleted with its images successfully'
+                     });
+ 
+                 }).catch(error => {
+                     console.log(error);
+                     res.status(404).json({error: error});
+                 });  
+             }else {
+               return res.status(404).json({message: 'Not found'});
+             }
+     }).catch(error => {
+         console.log(error);
+         res.status(500).json({error: error});
+     });
+ });
 
 
 
