@@ -14,7 +14,8 @@ const storage = multer.diskStorage({
         cb(null, "./uploads/");
     },
     filename: function(req, file, cb) {
-        cb(null, Date().now + file.originalname);
+        var d = new Date().getTime()
+        cb(null, d + file.originalname);
     }
 });
 const fileFilter = (req, file, cb) => {
