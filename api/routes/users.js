@@ -12,7 +12,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
     User.find({ userEmail: req.body.userEmail }).exec().then(user => {
         if (user.length >= 1){
             return res.status(409).json({
-                message: 'Mail exists'
+                error: 'Mail exists'
             });
         }else {
             
@@ -31,7 +31,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                     user.save().then(reuslt => {
                         res.status(200).json({
                             message: 'User sign up successfully',
-                            hall: user
+                            user: user
                         });
                     }).catch(error => {
                         console.log(error);
@@ -52,14 +52,14 @@ router.post('/signin', (req, res, next) => {
    User.find({ userEmail: req.body.userEmail }).exec().then(user => {
     if (user.length < 1) {
         return res.status(401).json({
-            message: 'Auth failed'
+            error: 'Auth failed'
         });
     }
     
     bcrypt.compare(req.body.userPassword, user[0].userPassword, (err, result) => {
         if (err){
             return res.status(401).json({
-                message: 'Auth failed'
+                error: 'Auth failed'
             });
         }
 
@@ -76,12 +76,13 @@ router.post('/signin', (req, res, next) => {
 
             return res.status(200).json({
                 message: 'Auth successfull',
+                user: user,
                 token: token
             }); 
         }
 
         res.status(401).json({
-            message: 'Auth failed'
+            error: 'Auth failed'
         });
 
     });
@@ -104,7 +105,7 @@ router.get('/', (req, res, next) => { // get all users we have on database
         if (allUsers.length >= 0){
             res.status(200).json(allUsers);
         }else {
-            res.status(404).json({message: 'No Users found'});
+            res.status(404).json({error: 'No Users found'});
         }
     }).catch(error => {
         console.log(error);
@@ -118,7 +119,7 @@ router.get('/:userID', (req, res, next) => { // get specific user information by
         if (user){
            res.status(200).json({ user });
         }else {
-            res.status(404).json({message: 'Not valid user id'});
+            res.status(404).json({error: 'Not valid user id'});
         }
 
     }).catch(error => {
