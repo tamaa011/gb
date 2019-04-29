@@ -32,7 +32,7 @@ fileFilter: fileFilter
 
 var result = new Array()
 router.post('/', upload.array('hallImage', 6), (req, res, next) => { // insert new hall into ddatabase with images limited to 6
-    for(var i = 0; i < req.files; i++){
+    for(var i = 0; i < req.files.length; i++){
         result[i] = req.files[i].filename // this was path .. changed to file name for ignoring 'uploads' in url
     } 
 
