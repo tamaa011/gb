@@ -31,7 +31,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                     user.save().then(reuslt => {
                         res.status(200).json({
                             message: 'User sign up successfully',
-                            user: user
+                            user: user 
                         });
                     }).catch(error => {
                         console.log(error);
