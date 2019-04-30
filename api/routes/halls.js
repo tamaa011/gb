@@ -65,7 +65,7 @@ router.post('/', upload.array('hallImage', 6), (req, res, next) => {
 // get request
 //------------------------------------------------------------------------------------------
 router.get('/', (req, res, next) => { // get all halls
-    hall.find().select("_id hallName hallAdress hallCategory hallImage hallDescription hallPrice hallLocationLong hallLocationLat hallSpecialOffers")
+    hall.find().select("_id hallName hallAdress hallCategory hallImage hallDescription hallPrice hallLocationLong hallLocationLat hallSpecialOffers hallPhoneNumber")
     .exec().then(allHalls => {
         console.log(allHalls);
         if (allHalls.length >= 0){
@@ -81,7 +81,7 @@ router.get('/', (req, res, next) => { // get all halls
 
 router.get('/:HallID', (req, res, next) => { // get hall info by id
     const id = req.params.HallID;
-    hall.findById(id).select("_id hallName hallAdress hallCategory hallImage hallDescription hallPrice hallLocationLong hallLocationLat hallSpecialOffers").exec().then(doc => {
+    hall.findById(id).select("_id hallName hallAdress hallCategory hallImage hallDescription hallPrice hallLocationLong hallLocationLat hallSpecialOffers hallPhoneNumber").exec().then(doc => {
         console.log("from databse ",doc);
         if (doc){
            res.status(200).json({ doc });
