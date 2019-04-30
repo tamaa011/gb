@@ -10,6 +10,7 @@ const hallSchema = mongoose.Schema({
     hallLocationLong: { type: String, required: true },
     hallLocationLat: { type: String, required: true },
     hallSpecialOffers: { type: String},
+    hallPhoneNumber: {type: String, required: true},
     hallImage: []
 });
 

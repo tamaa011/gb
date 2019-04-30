@@ -47,6 +47,7 @@ router.post('/', upload.array('hallImage', 6), (req, res, next) => {
         hallLocationLong: req.body.hallLocationLong,
         hallLocationLat: req.body.hallLocationLat,
         hallSpecialOffers: req.body.hallSpecialOffers,
+        hallPhoneNumber: req.body.hallPhoneNumber,
         hallImage: result
     });
     newHall.save().then(result => {
