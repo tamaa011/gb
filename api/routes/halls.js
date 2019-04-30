@@ -11,7 +11,7 @@ const checkAuth = require('../middleware/check-auth');
 //--------------------------------------------------------------------------------------
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, "./upload/");
+        cb(null, "./uploads/");
     },
     filename: function(req, file, cb) {
         cb(null, Date.now() + file.originalname);
@@ -104,7 +104,7 @@ router.delete('/:HallID', (req, res, next) => { // delete hall by id
                  hall.deleteOne({ _id: id }).exec().then(result => { // delete hall data from database
  
                      for(var i = 0; i < doc.hallImage.length; i++){ // loop on hall images 
-                         fs.unlink('./upload/'+doc.hallImage[i], (error) =>{ // delete each image from uploads folder
+                         fs.unlink('./uploads/'+doc.hallImage[i], (error) =>{ // delete each image from uploads folder
           
                          });
                      } // loop end
