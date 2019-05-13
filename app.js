@@ -1,6 +1,7 @@
 // load our app server using express
 
 const express = require('express')
+const http = require('http');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
@@ -21,6 +22,11 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const port = parseInt(process.env.PORT, 10) || 8000;
+app.set('port', port);
+const server = http.createServer(app);
+server.listen(port, () => console.log(`app listens on port ${port}`));
+
 // disable cors errors
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,8 +40,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-
 
 
 app.use('/users', usersRoutes);
