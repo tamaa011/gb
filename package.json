@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon server.js",
+    "babel-version": "babel --version"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
@@ -26,6 +29,11 @@
     "save": "^2.3.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
     "nodemon": "^1.18.11"
   }
 }

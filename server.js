@@ -1,11 +1,15 @@
-const http = require('http');
-const app = require('./app');
 
-const port = process.env.PORT || 3001;
+require("@babel/register")({
 
+  "plugins": [
 
-const server = http.createServer(app);
-
-server.listen(port)
-
-
+      [
+          "@babel/plugin-proposal-decorators",
+          {
+              "legacy": true
+          }
+      ],
+  ],
+})
+  // Import the rest of our application.
+  module.exports = require('./app.js')
