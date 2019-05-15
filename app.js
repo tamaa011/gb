@@ -1,5 +1,18 @@
 // load our app server using express
 
+require("@babel/register")({
+
+  "plugins": [
+
+      [
+          "@babel/plugin-proposal-decorators",
+          {
+              "legacy": true
+          }
+      ],
+  ],
+})
+
 const express = require('express')
 const http = require('http');
 const morgan = require('morgan');
