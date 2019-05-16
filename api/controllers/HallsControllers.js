@@ -16,9 +16,10 @@ class HallsController {
             let getDataObjectWithPaginationParams = {
                 limit: allRequestParams.limit,
                 offset: allRequestParams.offset,
-                modelRef: this.modelRef
+                modelRef: this.modelRef,
+                modelToJoinRef : "hallCategory"
             }
-            let hallsArray = await this.hallsModel.getDataObjectWithPagination(getDataObjectWithPaginationParams);
+            let hallsArray = await this.hallsModel.getDataObjectWithPaginationAndJoin(getDataObjectWithPaginationParams);
             return hallsArray
 
         } catch (error) {
@@ -66,7 +67,7 @@ class HallsController {
             }
 
             let hallsArray = await this.hallsModel.searchDataObjectWithFieldWithJoin(searchByNameParams);
-            
+
             if (!hallsArray || !hallsArray.length)
                 throw new Error("hall with this name not found")
 

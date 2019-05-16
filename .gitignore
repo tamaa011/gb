@@ -2,7 +2,7 @@
 node_modules
 npm-debug.log
 
-# Local development
+# Local development 
 *.uploads
 .DS_Store
 
