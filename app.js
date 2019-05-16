@@ -4,12 +4,12 @@ require("@babel/register")({
 
   "plugins": [
 
-      [
-          "@babel/plugin-proposal-decorators",
-          {
-              "legacy": true
-          }
-      ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
   ],
 })
 
@@ -21,8 +21,11 @@ const mongoose = require('mongoose');
 const config = require('./config/config.json')
 const usersRoutes = require('./api/routes/users');
 const hallsRoutes = require('./api/routes/halls');
+const dotenv = require('dotenv');
+dotenv.config();
+
 mongoose.connect(
-  config.dataBaseUrl,
+  process.env.MONGO_URL,
   { useNewUrlParser: true }, (err) => {
     if (!err) { console.log(`Database connected and host is ${config.dataBaseUrl}`) }
     else { console.log(err) }

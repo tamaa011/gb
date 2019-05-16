@@ -1,3 +1,5 @@
+const category = require('../../models/category');
+
 class BaseModel {
 
     async getDataObjectWithPagination(params) {
@@ -28,13 +30,36 @@ class BaseModel {
             let skip = params.offset * limit
             let objOfData = await modelRefObj.find({ [`${fieldName}`]: fieldValue }).skip(skip).limit(limit)
             return objOfData
-
         } catch (error) {
             throw error
         }
 
 
     }
+
+
+    async searchDataObjectWithFieldWithJoin(params) {
+
+        try {
+
+            let fieldName = params.fieldName;
+            let fieldValue = params.fieldValue;
+            let modelRefObj = params.modelRef
+            let modelToJoinRefObj = params.modelToJoinRef
+            let limit = params.limit;
+            let skip = params.offset * limit
+            let objOfData = await modelRefObj.find({ [`${fieldName}`]: fieldValue })
+                .populate(`${modelToJoinRefObj}`)
+                .skip(skip)
+                .limit(limit)
+
+            return objOfData
+        } catch (error) {
+            throw error
+        }
+    }
+
+
 }
 
 module.exports = BaseModel

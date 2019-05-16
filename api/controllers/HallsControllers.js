@@ -51,7 +51,7 @@ class HallsController {
 
     }
 
-    
+
     @_requiredValidator(['hallCategory'])
     async searchByCategory(allRequestParams) {
 
@@ -61,11 +61,12 @@ class HallsController {
                 offset: allRequestParams.offset,
                 fieldValue: allRequestParams.hallCategory,
                 fieldName: "hallCategory",
-                modelRef: this.modelRef
+                modelRef: this.modelRef,
+                modelToJoinRef: "hallCategory"
             }
 
-            let hallsArray = await this.hallsModel.searchDataObjectWithField(searchByNameParams);
-
+            let hallsArray = await this.hallsModel.searchDataObjectWithFieldWithJoin(searchByNameParams);
+            
             if (!hallsArray || !hallsArray.length)
                 throw new Error("hall with this name not found")
 
