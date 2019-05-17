@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
 const FavoritesController = require('../controllers/FavoritesControllers');
+const checkAuth = require('../middleware/check-auth');
 
 
 
-router.post('/addToFavorites', async (req, res, next) => {
+router.post('/addToFavorites', checkAuth, async (req, res, next) => {
 
     try {
         let favorites = await FavoritesController.addToFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
@@ -17,7 +18,7 @@ router.post('/addToFavorites', async (req, res, next) => {
 });
 
 
-router.post('/deleteFromFavorites', async (req, res, next) => {
+router.post('/deleteFromFavorites', checkAuth, async (req, res, next) => {
 
     try {
         let favorites = await FavoritesController.deleteFromFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })

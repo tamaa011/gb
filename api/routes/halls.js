@@ -75,7 +75,7 @@ router.post('/listHalls', checkAuth, async (req, res, next) => {
     }
 });
 
-router.post('/searchByName', async (req, res, next) => {
+router.post('/searchByName', checkAuth, async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.searchByName({ ...req.body, ...req.headers, ...req.params, ...req.query })
@@ -86,7 +86,7 @@ router.post('/searchByName', async (req, res, next) => {
     }
 })
 
-router.post('/searchByCategory', async (req, res, next) => {
+router.post('/searchByCategory', checkAuth, async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.searchByCategory({ ...req.body, ...req.headers, ...req.params, ...req.query })
