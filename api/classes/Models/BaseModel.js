@@ -19,7 +19,15 @@ class BaseModel {
         return arrayOfData
 
     }
+    async deleteData(params) {
 
+        let modelRefObj = params.modelRef;
+        let query = params.query
+        let data = await modelRefObj.remove(query)
+        console.log(data);
+        return data != null
+
+    }
     async getDataWithPagination(params) {
 
         let limit = params.limit;
