@@ -9,4 +9,4 @@ class HallsModelObject extends BaseModel {
     }
 
 }
-module.exports =  HallsModelObject
+module.exports = HallsModelObject

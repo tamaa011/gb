@@ -21,6 +21,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config.json')
 const usersRoutes = require('./api/routes/users');
 const hallsRoutes = require('./api/routes/halls');
+const favoritesRoutes = require('./api/routes/favorites');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 
 app.use('/users', usersRoutes);
 app.use('/halls', hallsRoutes);
+app.use('/favorites', favoritesRoutes);
 
 // handle error
 app.use((req, res, next) => {

@@ -2,87 +2,78 @@ const category = require('../../models/category');
 
 class BaseModel {
 
-    async getDataObjectWithPagination(params) {
 
-        try {
+    async isExist(params) {
 
-            let limit = params.limit;
-            let skip = params.offset * limit;
-            let modelRefObj = params.modelRef;
-            let arrayOfData = await modelRefObj.find({}).skip(skip).limit(limit);
-            return arrayOfData;
+        let modelRefObj = params.modelRef;
+        let query = params.query
+        let data = await modelRefObj.findOne(query)
+        return data != null
+    }
 
-        } catch (error) {
+    async insertData(params) {
 
-            throw error
-        }
+        let modelRefObj = params.modelRef;
+        let dataToInsert = params.data
+        let arrayOfData = await modelRefObj.insertMany(dataToInsert)
+        return arrayOfData
+
+    }
+
+    async getDataWithPagination(params) {
+
+        let limit = params.limit;
+        let skip = params.offset * limit;
+        let modelRefObj = params.modelRef;
+        let arrayOfData = await modelRefObj.find({}).skip(skip).limit(limit);
+        return arrayOfData;
+
+    }
+
+    async getDataWithPaginationAndJoin(params) {
+
+        let limit = params.limit;
+        let skip = params.offset * limit;
+        let modelRefObj = params.modelRef;
+        let modelToJoinRefObj = params.modelToJoinRef
+
+        let arrayOfData = await modelRefObj.find()
+            .populate(`${modelToJoinRefObj}`)
+            .skip(skip)
+            .limit(limit);
+
+        return arrayOfData;
+
+    }
+
+    async searchDataWithField(params) {
+
+        let fieldName = params.fieldName;
+        let fieldValue = params.fieldValue;
+        let modelRefObj = params.modelRef
+        let limit = params.limit;
+        let skip = params.offset * limit
+        let objOfData = await modelRefObj.find({ [`${fieldName}`]: fieldValue }).skip(skip).limit(limit)
+        return objOfData
 
     }
 
 
-    async getDataObjectWithPaginationAndJoin(params) {
+    async searchDataWithFieldAndJoin(params) {
 
-        try {
+        let fieldName = params.fieldName;
+        let fieldValue = params.fieldValue;
+        let modelRefObj = params.modelRef
+        let modelToJoinRefObj = params.modelToJoinRef
+        let limit = params.limit;
+        let skip = params.offset * limit
+        let objOfData = await modelRefObj.find({ [`${fieldName}`]: fieldValue })
+            .populate(`${modelToJoinRefObj}`)
+            .skip(skip)
+            .limit(limit)
 
-            let limit = params.limit;
-            let skip = params.offset * limit;
-            let modelRefObj = params.modelRef;
-            let modelToJoinRefObj = params.modelToJoinRef
-
-            let arrayOfData = await modelRefObj.find()
-                .populate(`${modelToJoinRefObj}`)
-                .skip(skip)
-                .limit(limit);
-
-            return arrayOfData;
-
-        } catch (error) {
-
-            throw error
-        }
-
+        return objOfData
     }
-
-    async searchDataObjectWithField(params) {
-
-        try {
-
-            let fieldName = params.fieldName;
-            let fieldValue = params.fieldValue;
-            let modelRefObj = params.modelRef
-            let limit = params.limit;
-            let skip = params.offset * limit
-            let objOfData = await modelRefObj.find({ [`${ fieldName }`]: fieldValue }).skip(skip).limit(limit)
-            return objOfData
-        } catch (error) {
-            throw error
-        }
-
-
-    }
-
-
-    async searchDataObjectWithFieldWithJoin(params) {
-
-        try {
-
-            let fieldName = params.fieldName;
-            let fieldValue = params.fieldValue;
-            let modelRefObj = params.modelRef
-            let modelToJoinRefObj = params.modelToJoinRef
-            let limit = params.limit;
-            let skip = params.offset * limit
-            let objOfData = await modelRefObj.find({ [`${ fieldName }`]: fieldValue })
-                .populate(`${ modelToJoinRefObj }`)
-                .skip(skip)
-                .limit(limit)
-
-            return objOfData
-        } catch (error) {
-            throw error
-        }
-    }
-
 
 }
 

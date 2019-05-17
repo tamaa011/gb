@@ -1,6 +1,5 @@
 const HallsModelObject = require("../classes/Models/HallsModelObject");
-const _requiredValidator = require("../classes/Decorators/Validators/RequiredValidator");
-
+const _applyValidators = require("../classes/Decorators/applyValidators");
 
 class HallsController {
 
@@ -17,9 +16,9 @@ class HallsController {
                 limit: allRequestParams.limit,
                 offset: allRequestParams.offset,
                 modelRef: this.modelRef,
-                modelToJoinRef : "hallCategory"
+                modelToJoinRef: "hallCategory"
             }
-            let hallsArray = await this.hallsModel.getDataObjectWithPaginationAndJoin(getDataObjectWithPaginationParams);
+            let hallsArray = await this.hallsModel.getDataWithPaginationAndJoin(getDataObjectWithPaginationParams);
             return hallsArray
 
         } catch (error) {
@@ -28,7 +27,7 @@ class HallsController {
         }
     }
 
-    @_requiredValidator(['hallName'])
+    @_applyValidators({ 'required': ['hallName'] })
     async searchByName(allRequestParams) {
 
         try {
@@ -38,10 +37,10 @@ class HallsController {
                 fieldValue: allRequestParams.hallName,
                 fieldName: "hallName",
                 modelRef: this.modelRef,
-                modelToJoinRef : "hallCategory"
+                modelToJoinRef: "hallCategory"
             }
 
-            let hallsArray = await this.hallsModel.searchDataObjectWithFieldWithJoin(searchByNameParams);
+            let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
 
             if (!hallsArray || !hallsArray.length)
                 throw new Error("hall with this name not found")
@@ -54,7 +53,7 @@ class HallsController {
     }
 
 
-    @_requiredValidator(['hallCategory'])
+    @_applyValidators({ 'required': ['hallCategory'] })
     async searchByCategory(allRequestParams) {
 
         try {
@@ -67,7 +66,7 @@ class HallsController {
                 modelToJoinRef: "hallCategory"
             }
 
-            let hallsArray = await this.hallsModel.searchDataObjectWithFieldWithJoin(searchByNameParams);
+            let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
 
             if (!hallsArray || !hallsArray.length)
                 throw new Error("hall with this name not found")
