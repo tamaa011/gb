@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
                     },
                     'tamaaGamedAwe',
                     {
-                        expiresIn: "1m"
+                        expiresIn: "1h"
                     });
 
                 return res.status(400).send({ success: false, data: token })

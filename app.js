@@ -22,7 +22,8 @@ const config = require('./config/config.json')
 const usersRoutes = require('./api/routes/users');
 const hallsRoutes = require('./api/routes/halls');
 const favoritesRoutes = require('./api/routes/favorites');
-const dotenv = require('dotenv');
+const ratingRoutes = require('./api/routes/rating');
+const dotenv = require('dotenv')
 dotenv.config();
 
 mongoose.connect(
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 app.use('/users', usersRoutes);
 app.use('/halls', hallsRoutes);
 app.use('/favorites', favoritesRoutes);
+app.use('/rating', ratingRoutes);
 
 // handle error
 app.use((req, res, next) => {

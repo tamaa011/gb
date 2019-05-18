@@ -12,13 +12,15 @@ class HallsController {
 
         try {
 
-            let getDataObjectWithPaginationParams = {
+            let getDataWithPaginationAndJoinAndSortParams = {
                 limit: allRequestParams.limit,
                 offset: allRequestParams.offset,
                 modelRef: this.modelRef,
+                sortField: "hallsAverageRating",
+                sortOrder: -1,
                 modelToJoinRef: "hallCategory"
             }
-            let hallsArray = await this.hallsModel.getDataWithPaginationAndJoin(getDataObjectWithPaginationParams);
+            let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
             return hallsArray
 
         } catch (error) {
@@ -69,12 +71,29 @@ class HallsController {
             let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
 
             if (!hallsArray || !hallsArray.length)
-                throw new Error("hall with this name not found")
+                throw new Error("hall with this category not found")
 
             return hallsArray
         } catch (error) {
             throw error
         }
+    }
+
+    async updateHall(allRequestParams) {
+
+    }
+
+    @_applyValidators({ 'required': ['hallsAverageRating'] })
+    async updateAvgRating(allRequestParams) {
+
+        let updateDataParams = {
+            modelRef: this.modelRef,
+            query: { hallId: allRequestParams.hallId },
+            data: { hallsAverageRating: allRequestParams.hallsAverageRating }
+        }
+
+        let result = await this.hallsModel.updateData(updateDataParams);
+        return result
 
     }
 }

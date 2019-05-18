@@ -1,4 +1,5 @@
 const category = require('../../models/category');
+const mongoose = require('mongoose');
 
 class BaseModel {
 
@@ -19,6 +20,17 @@ class BaseModel {
         return arrayOfData
 
     }
+
+    async replaceData(params) {
+
+        let modelRefObj = params.modelRef;
+        let dataToInsert = params.data
+        let query = params.query
+        let arrayOfData = await modelRefObj.replaceOne(query, dataToInsert)
+        return arrayOfData
+
+    }
+
     async deleteData(params) {
 
         let modelRefObj = params.modelRef;
@@ -27,12 +39,32 @@ class BaseModel {
         return data != null
 
     }
+
+    async updateData(params) {
+
+        let modelRefObj = params.modelRef;
+        let query = params.query;
+        let updatedData = params.data
+        let updateResult = await modelRefObj.update(query, updatedData);
+        return updatedData
+
+    }
+
+    async getDataWithQuery(params) {
+
+        let modelRefObj = params.modelRef;
+        let query = params.query;
+        let arrayOfData = await modelRefObj.find({ query })
+        return arrayOfData;
+
+    }
+
     async getDataWithPagination(params) {
 
         let limit = params.limit;
         let skip = params.offset * limit;
         let modelRefObj = params.modelRef;
-        let arrayOfData = await modelRefObj.find({}).skip(skip).limit(limit);
+        let arrayOfData = await modelRefObj.find().skip(skip).limit(limit);
         return arrayOfData;
 
     }
@@ -53,6 +85,36 @@ class BaseModel {
 
     }
 
+    async getDataWithPaginationAndSort(params) {
+
+        let limit = params.limit;
+        let skip = params.offset * limit;
+        let modelRefObj = params.modelRef;
+        let sortField = params.sortField;
+        let sortOrder = params.sortOrder
+        let arrayOfData = await modelRefObj.find().sort({ [`${sortField}`]: `${sortOrder}` }).skip(skip).limit(limit);
+        return arrayOfData;
+
+    }
+
+    async getDataWithPaginationAndJoinAndSort(params) {
+
+        let limit = params.limit;
+        let skip = params.offset * limit;
+        let modelRefObj = params.modelRef;
+        let sortField = params.sortField;
+        let sortOrder = params.sortOrder
+        let modelToJoinRefObj = params.modelToJoinRef
+        let arrayOfData = await modelRefObj.find()
+            .sort({ [`${sortField}`]: `${sortOrder}` })
+            .populate(`${modelToJoinRefObj}`)
+            .skip(skip)
+            .limit(limit);
+
+        return arrayOfData;
+
+    }
+    
     async searchDataWithField(params) {
 
         let fieldName = params.fieldName;
@@ -80,6 +142,18 @@ class BaseModel {
             .limit(limit)
 
         return objOfData
+    }
+
+    async mathOperation(params) {
+
+        let result = await params.modelRef.aggregate(
+            [
+                { $match: { hallId: { $in: [mongoose.Types.ObjectId(params.idValue)] } } },
+                { $group: { _id: `$${params.idField}`, hallsAverageRating: { [`$${params.operation}`]: `$${params.operationField}` } } }
+            ]
+        )
+
+        return result;
     }
 
 }

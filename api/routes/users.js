@@ -72,7 +72,7 @@ router.post('/signin', (req, res, next) => {
                 }, 
                 'tamaaGamedAwe',
                 {
-                   expiresIn: "1m"
+                   expiresIn: "1h"
                 });
 
             return res.status(200).json({

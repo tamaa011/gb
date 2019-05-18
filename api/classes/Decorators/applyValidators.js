@@ -1,9 +1,13 @@
 const BaseDecorators = require("./BaseDecorators");
 const RequiredValidator = require("../../classes/Validators/RequiredValidator")
+const MaxValidator = require("../../classes/Validators/MaxValidator")
+const MinValidator = require("../../classes/Validators/MinValidator")
 
 
 Validators = {
     'required': RequiredValidator,
+    'min': MinValidator,
+    'max': MaxValidator
 }
 
 class applyValidator extends BaseDecorators {
@@ -14,7 +18,8 @@ class applyValidator extends BaseDecorators {
         let arrayOfValidationErrors = []
         Object.keys(decoratorParams).forEach(key => {
             let returnedArrayOfValidationErrors = Validators[key].validate(validatorObj, decoratorParams[key])
-            arrayOfValidationErrors.push(...returnedArrayOfValidationErrors)
+            if (returnedArrayOfValidationErrors.length)
+                arrayOfValidationErrors.push(...returnedArrayOfValidationErrors)
         })
 
         if (arrayOfValidationErrors.length)

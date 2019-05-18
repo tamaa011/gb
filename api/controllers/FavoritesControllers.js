@@ -32,9 +32,9 @@ class FavoritesController {
             throw new Error("hall is already favorite")
 
         if (!favorite)
-            var favorites = await this.favoritesModel.insertData(insertDataObj)
+            favorite = await this.favoritesModel.insertData(insertDataObj)
 
-        return favorites
+        return favorite
     }
 
 

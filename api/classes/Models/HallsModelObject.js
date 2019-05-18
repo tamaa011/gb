@@ -6,6 +6,7 @@ class HallsModelObject extends BaseModel {
     constructor() {
         super();
         this.modelRef = hall
+
     }
 
 }
