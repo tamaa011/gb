@@ -6,7 +6,7 @@ const multer = require('multer');
 const fs = require('fs');
 
 const checkAuth = require('../middleware/check-auth');
-const HallsController = require('../controllers/HallsControllers');
+const HallsController = require('../controllers/HallsController');
 
 // uploading images..
 //--------------------------------------------------------------------------------------

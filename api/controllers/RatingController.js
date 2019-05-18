@@ -1,6 +1,6 @@
 const RatingModelObject = require("../classes/Models/RatingModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
-const HallsControllerObject = require("../controllers/HallsControllers");
+const HallsControllerObject = require("../controllers/HallsController");
 
 class RatingController {
 

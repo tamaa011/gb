@@ -1,7 +1,7 @@
 const HallsModelObject = require("../classes/Models/HallsModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
 const _filter = require("../classes/Decorators/filterObject");
-const CategoryControllers = require("./CategoryControllers");
+const CategoryControllers = require("./CategoryController");
 class HallsController {
 
     constructor() {
@@ -89,7 +89,7 @@ class HallsController {
         }
         if (allRequestParams.hallCategory) {
             let category = await CategoryControllers.findCategory(findCategoryObj)
-            if (!category || !category.length)
+            if (!category )
                 throw new Error('category doesnt exist')
         }
 

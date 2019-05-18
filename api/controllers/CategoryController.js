@@ -2,7 +2,7 @@ const CategoryModelObject = require("../classes/Models/CategoryModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
 
 
-class CategoryControllers {
+class CategoryController {
 
     constructor() {
         this.categoryModel = new CategoryModelObject()
@@ -16,7 +16,7 @@ class CategoryControllers {
             query: params
         }
         
-        let category = await this.categoryModel.getDataWithQuery(getDataWithQueryObj)
+        let category = await this.categoryModel.isExist(getDataWithQueryObj)
         return category
 
 
@@ -25,4 +25,4 @@ class CategoryControllers {
 
 }
 
-module.exports = new CategoryControllers()
+module.exports = new CategoryController()

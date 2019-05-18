@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
-const FavoritesController = require('../controllers/FavoritesControllers');
+const FavoritesController = require('../controllers/FavoritesController');
 const checkAuth = require('../middleware/check-auth');
 
 

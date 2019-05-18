@@ -54,7 +54,7 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let query = params.query;
-        let arrayOfData = await modelRefObj.find(query)
+        let arrayOfData = await modelRefObj.find(query)        
         return arrayOfData;
 
     }

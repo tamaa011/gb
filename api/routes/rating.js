@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
-const RatingControllers = require('../controllers/RatingControllers');
+const RatingControllers = require('../controllers/RatingController');
 const checkAuth = require('../middleware/check-auth');
 
 
