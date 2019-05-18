@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
                         expiresIn: "1h"
                     });
 
-                return res.status(400).send({ success: false, data: token })
+                return res.status(400).send({ success: false, token: token, refreshToken: true })
             }
 
             return res.status(401).send({ success: false, message: " auth failed" })
