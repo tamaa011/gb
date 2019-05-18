@@ -92,7 +92,11 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let sortField = params.sortField;
         let sortOrder = params.sortOrder
-        let arrayOfData = await modelRefObj.find().sort({ [`${sortField}`]: `${sortOrder}` }).skip(skip).limit(limit);
+        let arrayOfData = await modelRefObj.find()
+            .sort({ [`${sortField}`]: `${sortOrder}` })
+            .skip(skip)
+            .limit(limit);
+
         return arrayOfData;
 
     }
@@ -120,9 +124,14 @@ class BaseModel {
         let fieldName = params.fieldName;
         let fieldValue = params.fieldValue;
         let modelRefObj = params.modelRef
+        let sortField = params.sortField;
+        let sortOrder = params.sortOrder
         let limit = params.limit;
         let skip = params.offset * limit
-        let objOfData = await modelRefObj.find({ [`${fieldName}`]: fieldValue }).skip(skip).limit(limit)
+        let objOfData = await modelRefObj
+            .find({ [`${fieldName}`]: fieldValue })
+            .skip(skip)
+            .limit(limit)
         return objOfData
 
     }
@@ -144,6 +153,24 @@ class BaseModel {
         return objOfData
     }
 
+    async searchDataWithFieldAndJoinAndSort(params) {
+
+        let fieldName = params.fieldName;
+        let fieldValue = params.fieldValue;
+        let modelRefObj = params.modelRef
+        let sortField = params.sortField;
+        let sortOrder = params.sortOrder
+        let limit = params.limit;
+        let skip = params.offset * limit
+        let objOfData = await modelRefObj
+            .find({ [`${fieldName}`]: fieldValue })
+            .sort({ [`${sortField}`]: sortOrder })
+            .skip(skip)
+            .limit(limit)
+
+        return objOfData
+
+    }
     async mathOperation(params) {
 
         let result = await params.modelRef.aggregate(

@@ -50,7 +50,7 @@ class RatingController {
             rating = await this.ratingModel.insertData(insertDataObj)
 
         let resultedAverage = await this.ratingModel.mathOperation(mathOperationObj)
-
+        
         let updatedAverage = await HallsControllerObject.updateAvgRating(resultedAverage[0])
 
         return updatedAverage

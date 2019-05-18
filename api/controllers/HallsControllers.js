@@ -38,11 +38,13 @@ class HallsController {
             offset: allRequestParams.offset,
             fieldValue: allRequestParams.hallName,
             fieldName: "hallName",
+            sortField: "hallsAverageRating",
+            sortOrder: -1,
             modelRef: this.modelRef,
             modelToJoinRef: "hallCategory"
         }
 
-        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
+        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoinAndSort(searchByNameParams);
 
         if (!hallsArray || !hallsArray.length)
             throw new Error("hall with this name not found")
@@ -60,11 +62,13 @@ class HallsController {
             offset: allRequestParams.offset,
             fieldValue: allRequestParams.hallCategory,
             fieldName: "hallCategory",
+            sortField: "hallsAverageRating",
+            sortOrder: -1,
             modelRef: this.modelRef,
             modelToJoinRef: "hallCategory"
         }
 
-        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
+        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoinAndSort(searchByNameParams);
 
         if (!hallsArray || !hallsArray.length)
             throw new Error("hall with this category not found")
@@ -104,7 +108,7 @@ class HallsController {
 
         let updateDataParams = {
             modelRef: this.modelRef,
-            query: { hallId: allRequestParams.hallId },
+            query: { _id: allRequestParams._id },
             data: { hallsAverageRating: allRequestParams.hallsAverageRating }
         }
 
