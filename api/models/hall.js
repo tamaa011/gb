@@ -7,7 +7,7 @@ const hallSchema = mongoose.Schema({
     hallAdress: { type: String, required: true },
     hallCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     hallDescription: { type: String, required: true },
-    hallPrice: { type: String, required: true },
+    hallPrice: { type: Number, required: true },
     hallLocationLong: { type: String, required: true },
     hallLocationLat: { type: String, required: true },
     hallSpecialOffers: { type: String },

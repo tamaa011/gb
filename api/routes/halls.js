@@ -97,6 +97,18 @@ router.post('/searchByCategory', async (req, res, next) => {
     }
 })
 
+
+router.post('/update', async (req, res, next) => {
+
+    try {
+        let hallsArray = await HallsController.updateHall({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, data: hallsArray });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, message: error.message });
+    }
+})
+
 router.get('/:HallID', (req, res, next) => { // get hall info by id
     const id = req.params.HallID;
     hall.findById(id).select("_id hallName hallAdress hallCategory hallImage hallDescription hallPrice hallLocationLong hallLocationLat hallSpecialOffers hallPhoneNumber").exec().then(doc => {

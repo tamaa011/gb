@@ -45,7 +45,7 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let query = params.query;
         let updatedData = params.data
-        let updateResult = await modelRefObj.update(query, updatedData);
+        let updateResult = await modelRefObj.updateOne(query, updatedData);
         return updatedData
 
     }
@@ -54,7 +54,7 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let query = params.query;
-        let arrayOfData = await modelRefObj.find({ query })
+        let arrayOfData = await modelRefObj.find(query)
         return arrayOfData;
 
     }
@@ -114,7 +114,7 @@ class BaseModel {
         return arrayOfData;
 
     }
-    
+
     async searchDataWithField(params) {
 
         let fieldName = params.fieldName;

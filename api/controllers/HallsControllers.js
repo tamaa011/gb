@@ -1,6 +1,7 @@
 const HallsModelObject = require("../classes/Models/HallsModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
-
+const _filter = require("../classes/Decorators/filterObject");
+const CategoryControllers = require("./CategoryControllers");
 class HallsController {
 
     constructor() {
@@ -32,25 +33,21 @@ class HallsController {
     @_applyValidators({ 'required': ['hallName'] })
     async searchByName(allRequestParams) {
 
-        try {
-            let searchByNameParams = {
-                limit: allRequestParams.limit,
-                offset: allRequestParams.offset,
-                fieldValue: allRequestParams.hallName,
-                fieldName: "hallName",
-                modelRef: this.modelRef,
-                modelToJoinRef: "hallCategory"
-            }
-
-            let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
-
-            if (!hallsArray || !hallsArray.length)
-                throw new Error("hall with this name not found")
-
-            return hallsArray
-        } catch (error) {
-            throw error
+        let searchByNameParams = {
+            limit: allRequestParams.limit,
+            offset: allRequestParams.offset,
+            fieldValue: allRequestParams.hallName,
+            fieldName: "hallName",
+            modelRef: this.modelRef,
+            modelToJoinRef: "hallCategory"
         }
+
+        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
+
+        if (!hallsArray || !hallsArray.length)
+            throw new Error("hall with this name not found")
+
+        return hallsArray
 
     }
 
@@ -58,29 +55,48 @@ class HallsController {
     @_applyValidators({ 'required': ['hallCategory'] })
     async searchByCategory(allRequestParams) {
 
-        try {
-            let searchByNameParams = {
-                limit: allRequestParams.limit,
-                offset: allRequestParams.offset,
-                fieldValue: allRequestParams.hallCategory,
-                fieldName: "hallCategory",
-                modelRef: this.modelRef,
-                modelToJoinRef: "hallCategory"
-            }
-
-            let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
-
-            if (!hallsArray || !hallsArray.length)
-                throw new Error("hall with this category not found")
-
-            return hallsArray
-        } catch (error) {
-            throw error
+        let searchByNameParams = {
+            limit: allRequestParams.limit,
+            offset: allRequestParams.offset,
+            fieldValue: allRequestParams.hallCategory,
+            fieldName: "hallCategory",
+            modelRef: this.modelRef,
+            modelToJoinRef: "hallCategory"
         }
+
+        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoin(searchByNameParams);
+
+        if (!hallsArray || !hallsArray.length)
+            throw new Error("hall with this category not found")
+
+        return hallsArray
+
     }
 
+    @_applyValidators({ 'min': [['hallPrice'], [1]] })
+    @_filter(['_id', 'hallName', 'hallAdress', 'hallCategory', 'hallDescription', 'hallPrice', 'hallLocationLong', 'hallLocationLat', 'hallSpecialOffers', 'hallPhoneNumber', 'hallImage'])
     async updateHall(allRequestParams) {
 
+        let query = { _id: allRequestParams._id }
+        delete allRequestParams._id
+
+        let findCategoryObj = {
+            _id: allRequestParams.hallCategory
+        }
+        if (allRequestParams.hallCategory) {
+            let category = await CategoryControllers.findCategory(findCategoryObj)
+            if (!category || !category.length)
+                throw new Error('category doesnt exist')
+        }
+
+        let updateDataParams = {
+            modelRef: this.modelRef,
+            query: query,
+            data: allRequestParams
+        }
+
+        let result = await this.hallsModel.updateData(updateDataParams);
+        return result
     }
 
     @_applyValidators({ 'required': ['hallsAverageRating'] })

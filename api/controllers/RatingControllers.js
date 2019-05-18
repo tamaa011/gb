@@ -9,7 +9,7 @@ class RatingController {
         this.modelRef = this.ratingModel.modelRef
     }
 
-    @_applyValidators({ 'required': ['rating', 'hallId', 'userId'], 'min': [['rating'], [1]], 'max': [['rating'], [5]] })
+    @_applyValidators({ 'required': ['rating', 'hallId'], 'min': [['rating'], [1]], 'max': [['rating'], [5]] })
     async rateHall(allRequestParams) {
 
         let ratingObj = {

@@ -9,7 +9,7 @@ class FavoritesController {
         this.modelRef = this.favoritesModel.modelRef
     }
 
-    @_applyValidators({ 'required': ['hallId', 'userId'] })
+    @_applyValidators({ 'required': ['hallId'] })
     async addToFavorites(allRequestParams) {
 
         let favoriteObj = {
@@ -38,7 +38,7 @@ class FavoritesController {
     }
 
 
-    @_applyValidators({ 'required': ['hallId', 'userId'] })
+    @_applyValidators({ 'required': ['hallId'] })
     async deleteFromFavorites(allRequestParams) {
 
         let favoriteObj = {
