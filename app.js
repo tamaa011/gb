@@ -23,6 +23,8 @@ const usersRoutes = require('./api/routes/users');
 const hallsRoutes = require('./api/routes/halls');
 const favoritesRoutes = require('./api/routes/favorites');
 const ratingRoutes = require('./api/routes/rating');
+const notification = require('./api/routes/notification');
+
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -34,7 +36,6 @@ mongoose.connect(
   }
 );
 var app = express();
-
 app.use(express.static('uploads'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -64,6 +65,7 @@ app.use('/users', usersRoutes);
 app.use('/halls', hallsRoutes);
 app.use('/favorites', favoritesRoutes);
 app.use('/rating', ratingRoutes);
+app.use('/notification', notification);
 
 // handle error
 app.use((req, res, next) => {

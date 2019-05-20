@@ -1,3 +1,4 @@
 {
-    "dataBaseUrl": "mongodb+srv://GroomAndBride:123123123@groomandbridecluster-jwktt.mongodb.net/test?retryWrites=true"
+    "dataBaseUrl": "mongodb+srv://GroomAndBride:123123123@groomandbridecluster-jwktt.mongodb.net/test?retryWrites=true",
+    "fireBaseDataBaseUrl" : "https://groomandbride-57ebd.firebaseio.com"
 }

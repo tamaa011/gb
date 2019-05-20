@@ -101,7 +101,7 @@ router.post('/signin', (req, res, next) => {
 
 // get request
 //------------------------------------------------------------------------------------------
-router.get('/', async (req, res, next) => { // get all users we have on database
+router.get('/', checkAuth, async (req, res, next) => { // get all users we have on database
 
     User.find().select("_id userName userEmail userPassword")
         .exec().then(allUsers => {
@@ -129,7 +129,7 @@ router.post('/updatePassword', checkAuth, async (req, res, next) => {
     }
 });
 
-router.get('/:userID', (req, res, next) => { // get specific user information by user id
+router.get('/:userID', checkAuth, (req, res, next) => { // get specific user information by user id
     const id = req.params.userID;
     User.findById(id).select("_id userName userEmail userPassword").exec().then(user => {
         if (user) {
