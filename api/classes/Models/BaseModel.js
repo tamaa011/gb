@@ -54,7 +54,17 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let query = params.query;
-        let arrayOfData = await modelRefObj.find(query)        
+        let arrayOfData = await modelRefObj.find(query)
+        return arrayOfData;
+
+    }
+
+    async getDataWithQueryAndJoin(params) {
+
+        let modelRefObj = params.modelRef;
+        let modelToJoinRefObj = params.modelToJoinRef
+        let query = params.query;
+        let arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`)
         return arrayOfData;
 
     }

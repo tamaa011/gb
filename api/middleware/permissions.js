@@ -1,11 +1,19 @@
+
 const routeActions = require('../models/routeActions')
+const user = require('../models/user')
 const BaseModel = require('../classes/Models/BaseModel')
 
 module.exports = async (req, res, next) => {
 
-  let user = req.userData;
-  let userRole = user.userRole;
-  let userActions = userRole.actions
+  let userId = req.userData._id;
+
+  let userAndRoles = await baseModel.getDataWithQueryAndJoin({
+    modelRef: user,
+    modelToJoinRef: "userRole",
+    query: { _id: userId }
+  })
+
+  let userActions = userAndRoles[0] ? userAndRoles[0].userRole.actions : []
 
   let reqPath = req.path;
   let baseModel = new BaseModel()
