@@ -19,7 +19,6 @@ class BaseDecorators {
                 } catch (error) {
 
                     console.log(error);
-                    error.message = JSON.parse(error.message)
                     throw error
                 }
 

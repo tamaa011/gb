@@ -2,7 +2,12 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports = (req, res, next) => {
-    let token = req.headers.authorization.split(" ")[1];
+
+    let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : null;
+
+    if (!token)
+        return res.status(401).send({ success: false, message: " auth failed" })
+
     jwt.verify(token, 'tamaaGamedAwe', function (err, decoded) {
 
         if (decoded) {
