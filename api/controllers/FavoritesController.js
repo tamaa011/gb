@@ -29,12 +29,10 @@ class FavoritesController {
         let favorite = await this.favoritesModel.isExist(isExistObj)
 
         if (favorite)
-            throw new Error("hall is already favorite")
+            throw new Error("hall is already in your favorites list")
 
         if (!favorite)
             favorite = await this.favoritesModel.insertData(insertDataObj)
-
-        return favorite
     }
 
 
@@ -61,9 +59,19 @@ class FavoritesController {
             throw new Error("hall doesnt exist in favorite")
 
         if (favorite)
-            var favorites = await this.favoritesModel.deleteData(deleteDataObj)
+            await this.favoritesModel.deleteData(deleteDataObj)
+    }
 
-        return favorites
+    async listFavorites(allRequestParams){
+
+        let getDataWithQueryObj = {
+            modelRef : this.modelRef,
+            query :{userId : allRequestParams.userId}
+        }
+
+        let userFavorites = await this.favoritesModel.getDataWithQuery(getDataWithQueryObj);
+        return userFavorites
+        
     }
 
 }

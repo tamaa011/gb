@@ -59,6 +59,7 @@ router.post('/signin', (req, res, next) => {
         }
 
         bcrypt.compare(req.body.userPassword, user[0].userPassword, (err, result) => {
+
             if (err) {
                 return res.status(401).json({
                     error: 'Auth failed'
@@ -101,9 +102,9 @@ router.post('/signin', (req, res, next) => {
 
 // get request
 //------------------------------------------------------------------------------------------
-router.get('/', checkAuth, async (req, res, next) => { // get all users we have on database
+router.get('/', async (req, res, next) => { // get all users we have on database
 
-    User.find().select("_id userName userEmail userPassword")
+    User.find().select("_id userName userEmail userPassword").populate("userRole")
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 res.status(200).json(allUsers);
@@ -125,6 +126,31 @@ router.post('/updatePassword', checkAuth, async (req, res, next) => {
     } catch (error) {
         console.log(error);
         return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+
+    }
+});
+
+
+router.post('/updateBasicInfo', checkAuth, async (req, res, next) => {
+    try {
+
+        await UsersController.updateBasicInfo({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
+        return res.status(200).json({ success: true, message: "user Name updated" });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+
+    }
+});
+
+router.post('/addUser', checkAuth, async (req, res, next) => {
+    try {
+
+        let user = await UsersController.addUser({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, message: "user added successfully", data: user });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: (error.message) });
 
     }
 });
@@ -157,14 +183,5 @@ router.delete('/:userID', (req, res, nect) => {  // delete user from database by
         res.status(500).json({ error: error });
     });
 });
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

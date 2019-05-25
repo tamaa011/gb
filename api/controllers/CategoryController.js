@@ -19,10 +19,7 @@ class CategoryController {
         let category = await this.categoryModel.isExist(getDataWithQueryObj)
         return category
 
-
     }
-
-
 }
 
 module.exports = new CategoryController()

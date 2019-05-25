@@ -9,8 +9,8 @@ const checkAuth = require('../middleware/check-auth');
 router.post('/addToFavorites', checkAuth, async (req, res, next) => {
 
     try {
-        let favorites = await FavoritesController.addToFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ success: true, data: favorites });
+        await FavoritesController.addToFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
+        return res.status(200).json({ success: true, message: "favorites added successfully" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ success: false, message: error.message });
@@ -21,9 +21,21 @@ router.post('/addToFavorites', checkAuth, async (req, res, next) => {
 router.post('/deleteFromFavorites', checkAuth, async (req, res, next) => {
 
     try {
-        let favorites = await FavoritesController.deleteFromFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ success: true, data: favorites });
+        await FavoritesController.deleteFromFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
+        return res.status(200).json({ success: true, message: "favorites deleted successfully" });
     } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, message: error.message });
+    }
+});
+
+
+router.post('/listFavorites', checkAuth, async (req, res, next) => {
+
+    try {
+        let userFavorites = await FavoritesController.listFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
+        return res.status(200).json({ success: true, data: userFavorites });
+    } catch (error) { 
         console.log(error);
         return res.status(400).json({ success: false, message: error.message });
     }

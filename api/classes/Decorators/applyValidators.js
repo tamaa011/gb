@@ -5,6 +5,7 @@ const MinValidator = require("../../classes/Validators/MinValidator")
 const MinLengthValidator = require("../../classes/Validators/MinLengthValidator")
 const MaxLengthValidator = require("../../classes/Validators/MaxLengthValidator")
 const MatchValidator = require("../../classes/Validators/MatchValidator")
+const EmailValidator = require("../../classes/Validators/EmailValidator")
 
 
 Validators = {
@@ -13,7 +14,8 @@ Validators = {
     'min': MinValidator,
     'max': MaxValidator,
     'maxLength': MaxLengthValidator,
-    'minLength': MinLengthValidator
+    'minLength': MinLengthValidator,
+    'email': EmailValidator
 }
 
 class applyValidator extends BaseDecorators {
@@ -30,7 +32,6 @@ class applyValidator extends BaseDecorators {
 
         if (arrayOfValidationErrors.length)
             throw new Error(JSON.stringify(arrayOfValidationErrors))
-
 
     }
 }

@@ -1,6 +1,6 @@
 const UsersModelObject = require("../classes/Models/UsersModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
-const EncryptService = require("../classes/services/EncryptService");
+const _filter = require("../classes/Decorators/filterObject");
 
 
 class UsersController {
@@ -25,7 +25,7 @@ class UsersController {
         }
         let user = await this.userModel.getDataWithQuery(getDataWithQueryObj);
         user = user[0]
-        
+
         if (!user)
             throw new Error(JSON.stringify({ message: "user doesnt exist" }))
 
@@ -37,9 +37,42 @@ class UsersController {
         if (!isMatched)
             throw new Error(JSON.stringify([{ field: "userPassword", message: "wrong Password" }]))
 
-        
+
     }
 
+    @_applyValidators({
+        'required': ['userName'],
+        'minLength': [['userName'], [6]],
+        'maxLength': [['userName'], [15]]
+    })
+    async updateBasicInfo(allRequsetParams) {
+
+        let updateDataObj = {
+            modelRef: this.modelRef,
+            query: { _id: allRequsetParams.userId },
+            data: { userName: allRequsetParams.userName }
+        }
+
+        await this.userModel.updateData(updateDataObj);
+
+    }
+
+    @_applyValidators({
+        'required': ['userPassword', 'userEmail', 'userName', 'userRole'],
+        'email': ['userEmail'],
+        'minLength': [['userPassword', 'userName'], [6, 6]],
+        'maxLength': [['userPassword', 'userName'], [15, 15]]
+    })
+    @_filter(['userPassword', 'userEmail', 'userName', 'userRole'])
+    async addUser(allRequsetParams) {
+
+        let insertDataObj = {
+            modelRef: this.modelRef,
+            data: allRequsetParams
+        }
+        let user = await this.userModel.createData(insertDataObj)
+        return user
+    }
 }
 
 module.exports = new UsersController()

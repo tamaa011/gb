@@ -20,6 +20,15 @@ class BaseModel {
         return arrayOfData
 
     }
+    async createData(params) {
+
+        let modelRefObj = params.modelRef;
+        let dataToInsert = params.data;
+        let _id = new mongoose.Types.ObjectId()
+        console.log(dataToInsert);
+        let data = await modelRefObj.create({ ...dataToInsert, _id: _id })
+        return data
+    }
 
     async replaceData(params) {
 
@@ -46,7 +55,7 @@ class BaseModel {
         let query = params.query;
         let updatedData = params.data
         let updateResult = await modelRefObj.updateOne(query, updatedData);
-        return updatedData
+        return updateResult
 
     }
 

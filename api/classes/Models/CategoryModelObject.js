@@ -6,7 +6,6 @@ class CategoryModelObject extends BaseModel {
     constructor() {
         super();
         this.modelRef = category
-
     }
 
 }

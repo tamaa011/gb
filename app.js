@@ -24,6 +24,7 @@ const hallsRoutes = require('./api/routes/halls');
 const favoritesRoutes = require('./api/routes/favorites');
 const ratingRoutes = require('./api/routes/rating');
 const notification = require('./api/routes/notification');
+const rolesRoutes = require('./api/routes/roles');
 
 const dotenv = require('dotenv')
 dotenv.config();
@@ -66,6 +67,7 @@ app.use('/halls', hallsRoutes);
 app.use('/favorites', favoritesRoutes);
 app.use('/rating', ratingRoutes);
 app.use('/notification', notification);
+app.use('/roles', rolesRoutes);
 
 // handle error
 app.use((req, res, next) => {
