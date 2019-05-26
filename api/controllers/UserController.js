@@ -73,6 +73,18 @@ class UsersController {
         let user = await this.userModel.createData(insertDataObj)
         return user
     }
+
+    @_applyValidators({ 'required': ['userRole'] })
+    @_filter(['userRole', 'userId'])
+    async updateUserRole(allRequsetParams) {
+
+        let updateDataObj = {
+            modelRef: this.modelRef,
+            query: { _id: allRequsetParams.user },
+            data: { userRole: allRequsetParams.userRole }
+        }
+        await this.userModel.updateData(updateDataObj)
+    }
 }
 
 module.exports = new UsersController()

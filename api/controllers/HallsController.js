@@ -78,11 +78,11 @@ class HallsController {
     }
 
     @_applyValidators({ 'min': [['hallPrice'], [1]] })
-    @_filter(['_id', 'hallName', 'hallAdress', 'hallCategory', 'hallDescription', 'hallPrice', 'hallLocationLong', 'hallLocationLat', 'hallSpecialOffers', 'hallPhoneNumber', 'hallImage'])
+    @_filter(['hallId', 'hallName', 'hallAdress', 'hallCategory', 'hallDescription', 'hallPrice', 'hallLocationLong', 'hallLocationLat', 'hallSpecialOffers', 'hallPhoneNumber', 'hallImage'])
     async updateHall(allRequestParams) {
 
-        let query = { _id: allRequestParams._id }
-        delete allRequestParams._id
+        let query = { _id: allRequestParams.hallId }
+        delete allRequestParams.hallId
 
         let findCategoryObj = {
             _id: allRequestParams.hallCategory

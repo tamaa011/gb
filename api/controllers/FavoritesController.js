@@ -21,22 +21,11 @@ class FavoritesController {
             data: [favoriteObj]
         }
 
-        let isExistObj = {
-            modelRef: this.modelRef,
-            query: favoriteObj
-        }
-
-        let favorite = await this.favoritesModel.isExist(isExistObj)
-
-        if (favorite)
-            throw new Error("hall is already in your favorites list")
-
-        if (!favorite)
-            favorite = await this.favoritesModel.insertData(insertDataObj)
+       await this.favoritesModel.insertData(insertDataObj)
     }
 
 
-    @_applyValidators({ 'required': ['hallId'] })
+    @_applyValidators({ 'required': ['hallId'] })  
     async deleteFromFavorites(allRequestParams) {
 
         let favoriteObj = {

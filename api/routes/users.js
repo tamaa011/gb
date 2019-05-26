@@ -143,6 +143,18 @@ router.post('/updateBasicInfo', checkAuth, async (req, res, next) => {
     }
 });
 
+router.post('/updateRole', checkAuth, async (req, res, next) => {
+    try {
+
+        await UsersController.updateUserRole({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
+        return res.status(200).json({ success: true, message: "user Role updated" });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+
+    }
+});
+
 router.post('/addUser', checkAuth, async (req, res, next) => {
     try {
 
