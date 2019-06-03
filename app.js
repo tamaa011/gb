@@ -21,10 +21,12 @@ const mongoose = require('mongoose');
 const config = require('./config/config.json')
 const usersRoutes = require('./api/routes/users');
 const hallsRoutes = require('./api/routes/halls');
+const categoriesRoutes = require('./api/routes/category');
 const favoritesRoutes = require('./api/routes/favorites');
 const ratingRoutes = require('./api/routes/rating');
 const notification = require('./api/routes/notification');
 const rolesRoutes = require('./api/routes/roles');
+const hall = require('./api/models/hall');
 
 const dotenv = require('dotenv')
 dotenv.config();
@@ -32,7 +34,9 @@ dotenv.config();
 mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true }, (err) => {
-    if (!err) { console.log(`Database connected and host is ${config.dataBaseUrl}`) }
+    if (!err) {
+      console.log(`Database connected and host is ${config.dataBaseUrl}`);
+    }
     else { console.log(err) }
   }
 );
@@ -68,6 +72,8 @@ app.use('/favorites', favoritesRoutes);
 app.use('/rating', ratingRoutes);
 app.use('/notification', notification);
 app.use('/roles', rolesRoutes);
+app.use('/category', categoriesRoutes);
+
 
 // handle error
 app.use((req, res, next) => {

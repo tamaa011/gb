@@ -125,11 +125,9 @@ class BaseModel {
         let limit = params.limit;
         let skip = params.offset * limit;
         let modelRefObj = params.modelRef;
-        let sortField = params.sortField;
-        let sortOrder = params.sortOrder
         let modelToJoinRefObj = params.modelToJoinRef
         let arrayOfData = await modelRefObj.find()
-            .sort({ [`${sortField}`]: `${sortOrder}` })
+            .sort(params.sortObj)
             .populate(`${modelToJoinRefObj}`)
             .skip(skip)
             .limit(limit);
@@ -187,6 +185,28 @@ class BaseModel {
             .skip(skip)
             .limit(limit)
 
+
+        return objOfData
+
+    }
+
+
+    async likeSearchDataWithFieldAndJoinAndSort(params) {
+
+        let fieldName = params.fieldName;
+        let fieldValue = params.fieldValue;
+        let modelRefObj = params.modelRef
+        let sortField = params.sortField;
+        let sortOrder = params.sortOrder
+        let limit = params.limit;
+        let skip = params.offset * limit
+        let objOfData = await modelRefObj
+            .find({ [`${fieldName}`]: { $regex: '.*' + `${fieldValue}` + '.*' } })
+            .sort({ [`${sortField}`]: sortOrder })
+            .skip(skip)
+            .limit(limit)
+
+
         return objOfData
 
     }
@@ -194,7 +214,7 @@ class BaseModel {
 
         let result = await params.modelRef.aggregate(
             [
-                { $match: { hallId: { $in: [mongoose.Types.ObjectId(params.idValue)] } } },
+                { $match: { [`${params.idField}`]: { $in: [mongoose.Types.ObjectId(params.idValue)] } } },
                 { $group: { _id: `$${params.idField}`, hallsAverageRating: { [`$${params.operation}`]: `$${params.operationField}` } } }
             ]
         )

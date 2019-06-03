@@ -11,23 +11,15 @@ class HallsController {
 
     async hallsListing(allRequestParams) {
 
-        try {
-
-            let getDataWithPaginationAndJoinAndSortParams = {
-                limit: allRequestParams.limit,
-                offset: allRequestParams.offset,
-                modelRef: this.modelRef,
-                sortField: "hallsAverageRating",
-                sortOrder: -1,
-                modelToJoinRef: "hallCategory"
-            }
-            let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
-            return hallsArray
-
-        } catch (error) {
-
-            throw error
+        let getDataWithPaginationAndJoinAndSortParams = {
+            limit: allRequestParams.limit,
+            offset: allRequestParams.offset,
+            modelRef: this.modelRef,
+            sortObj: { "hallsAverageRating": -1, "hallsRatingCounter": -1 },
+            modelToJoinRef: "hallCategory"
         }
+        let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
+        return hallsArray
     }
 
     @_applyValidators({ 'required': ['hallName'] })
@@ -44,7 +36,7 @@ class HallsController {
             modelToJoinRef: "hallCategory"
         }
 
-        let hallsArray = await this.hallsModel.searchDataWithFieldAndJoinAndSort(searchByNameParams);
+        let hallsArray = await this.hallsModel.likeSearchDataWithFieldAndJoinAndSort(searchByNameParams);
 
         if (!hallsArray || !hallsArray.length)
             throw new Error("hall with this name not found")
@@ -89,7 +81,7 @@ class HallsController {
         }
         if (allRequestParams.hallCategory) {
             let category = await CategoryControllers.findCategory(findCategoryObj)
-            if (!category )
+            if (!category)
                 throw new Error('category doesnt exist')
         }
 
@@ -104,12 +96,13 @@ class HallsController {
     }
 
     @_applyValidators({ 'required': ['hallsAverageRating'] })
-    async updateAvgRating(allRequestParams) {
+    async updateAvgRating(allRequestParams, ratingCounter) {
 
+        let data = ratingCounter ? { hallsAverageRating: allRequestParams.hallsAverageRating, hallsRatingCounter: ratingCounter } : { hallsAverageRating: allRequestParams.hallsAverageRating }
         let updateDataParams = {
             modelRef: this.modelRef,
             query: { _id: allRequestParams._id },
-            data: { hallsAverageRating: allRequestParams.hallsAverageRating }
+            data: data
         }
 
         let result = await this.hallsModel.updateData(updateDataParams);

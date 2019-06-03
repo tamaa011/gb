@@ -28,13 +28,28 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         _id: new mongoose.Types.ObjectId(),
                         userName: req.body.userName,
                         userEmail: req.body.userEmail,
-                        userPassword: hash
+                        userPassword: req.body.userPassword,
+                        isAdmin: false
                     });
+
+
+                    const token = jwt.sign(
+                        {
+                            userEmail: req.body.userEmail,
+                            userId: user._id
+                        },
+                        'tamaaGamedAwe',
+                        {
+                            expiresIn: "1h"
+                        });
+
                     user.save().then(reuslt => {
                         res.status(200).json({
                             message: 'User sign up successfully',
-                            user: user
+                            user: user,
+                            token: token
                         });
+
                     }).catch(error => {
                         console.log(error);
                         res.status(500).json({ error: error });
@@ -102,7 +117,7 @@ router.post('/signin', (req, res, next) => {
 
 // get request
 //------------------------------------------------------------------------------------------
-router.get('/', async (req, res, next) => { // get all users we have on database
+router.get('/', checkAuth, async (req, res, next) => { // get all users we have on database
 
     User.find().select("_id userName userEmail userPassword").populate("userRole")
         .exec().then(allUsers => {
@@ -117,6 +132,22 @@ router.get('/', async (req, res, next) => { // get all users we have on database
         });
 });
 
+router.get('/listSystemUsers', checkAuth, async (req, res, next) => { // get all users we have on database
+
+    let limit = req.body.limit;
+    let skip = req.body.limit * req.body.offset
+    User.find({ isAdmin: true }).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
+        .exec().then(allUsers => {
+            if (allUsers.length >= 0) {
+                res.status(200).json(allUsers);
+            } else {
+                res.status(404).json({ error: 'No Users found' });
+            }
+        }).catch(error => {
+            console.log(error);
+            res.status(500).json({ error: error });
+        });
+});
 
 router.post('/updatePassword', checkAuth, async (req, res, next) => {
     try {

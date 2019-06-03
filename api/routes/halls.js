@@ -6,6 +6,8 @@ const multer = require('multer');
 const fs = require('fs');
 
 const checkAuth = require('../middleware/check-auth');
+const permissions = require('../middleware/permissions');
+
 const HallsController = require('../controllers/HallsController');
 
 // uploading images..
@@ -98,7 +100,7 @@ router.post('/searchByCategory', async (req, res, next) => {
 })
 
 
-router.post('/update', async (req, res, next) => {
+router.post('/update', checkAuth, permissions, async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.updateHall({ ...req.body, ...req.headers, ...req.params, ...req.query })

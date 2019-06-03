@@ -12,6 +12,9 @@ class RatingController {
     @_applyValidators({ 'required': ['rating', 'hallId'], 'min': [['rating'], [1]], 'max': [['rating'], [5]] })
     async rateHall(allRequestParams) {
 
+        let ratingCounter = 0;
+        let hall;
+
         let ratingObj = {
             rating: allRequestParams.rating,
             hallId: allRequestParams.hallId,
@@ -46,12 +49,19 @@ class RatingController {
         if (rating)
             rating = await this.ratingModel.replaceData(replaceDataObj)
 
-        if (!rating)
-            rating = await this.ratingModel.insertData(insertDataObj)
+        if (!rating) {
+            rating = await this.ratingModel.insertData(insertDataObj);
+            hall = await HallsControllerObject.hallsModel.getDataWithQuery({
+                modelRef: HallsControllerObject.modelRef,
+                query: { _id: ratingObj.hallId }
+            })
+            let previousCounter = hall[0].hallsRatingCounter ? hall[0].hallsRatingCounter : 0
+            ratingCounter = previousCounter + 1
+        }
 
         let resultedAverage = await this.ratingModel.mathOperation(mathOperationObj)
-        
-        let updatedAverage = await HallsControllerObject.updateAvgRating(resultedAverage[0])
+
+        let updatedAverage = await HallsControllerObject.updateAvgRating(resultedAverage[0], ratingCounter)
 
         return updatedAverage
 

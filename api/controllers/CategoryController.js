@@ -9,17 +9,45 @@ class CategoryController {
         this.modelRef = this.categoryModel.modelRef
     }
 
-    async findCategory(params) {
+    async findCategory(allRequestParams) {
 
         let getDataWithQueryObj = {
             modelRef: this.modelRef,
-            query: params
+            query: allRequestParams
         }
-        
+
         let category = await this.categoryModel.isExist(getDataWithQueryObj)
         return category
 
     }
+
+
+    async listCategories(allRequestParams) {
+
+        let getDataWithPaginationParams = {
+            limit: allRequestParams.limit,
+            offset: allRequestParams.offset,
+            modelRef: this.modelRef
+        }
+        let categoriesArray = await this.categoryModel.getDataWithPagination(getDataWithPaginationParams);
+        return categoriesArray
+
+    }
+
+
+    @_applyValidators({ 'required': ['name'] })
+    async addCategory(allRequestParams) {
+
+        let getDataWithPaginationParams = {
+            data: [{ name: allRequestParams.name }],
+            modelRef: this.modelRef
+        }
+        let categoriesArray = await this.categoryModel.insertData(getDataWithPaginationParams);
+        return categoriesArray
+
+    }
 }
+
+
 
 module.exports = new CategoryController()

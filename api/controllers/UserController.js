@@ -68,7 +68,7 @@ class UsersController {
 
         let insertDataObj = {
             modelRef: this.modelRef,
-            data: allRequsetParams
+            data: { ...allRequsetParams, isAdmin: true }
         }
         let user = await this.userModel.createData(insertDataObj)
         return user
@@ -80,7 +80,7 @@ class UsersController {
 
         let updateDataObj = {
             modelRef: this.modelRef,
-            query: { _id: allRequsetParams.user },
+            query: { _id: allRequsetParams.userId },
             data: { userRole: allRequsetParams.userRole }
         }
         await this.userModel.updateData(updateDataObj)
