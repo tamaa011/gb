@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const actionsSchema = mongoose.Schema({
-    name: { type: String, required: true },
+    Halls: { type: [String], required: true },
+    Users: { type: [String], required: true },
+    Admin: { type: [String], required: true }
+
 });
 
 const rolesSchema = mongoose.Schema({

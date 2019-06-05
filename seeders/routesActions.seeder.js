@@ -5,53 +5,54 @@ var data = [
 
     {
         route: '/users',
-        actions: 'list users'
+        actions: "List All Users"
     },
     {
         route: '/users/updatePassword',
-        actions: 'change password'
-
-    },
-    {
-        route: '/users/getUser',
-        actions: 'view user details'
+        actions: 'Change password'
 
     },
 
     {
         route: '/users/delete',
-        actions: 'delete user'
+        actions: 'Delete User'
+
+    },
+
+    {
+        route: '/roles/listRoles',
+        actions: 'BackGround List Roles'
 
     },
 
     {
         route: '/rating/rateHalls',
-        actions: 'rate hall'
+        actions: 'Rate hall'
     },
 
     {
         route: '/notification/pushNotification',
-        actions: 'push notification'
+        actions: 'Push Notification'
+    },
+    {
+        route: '/halls/listHalls',
+        actions: 'List All Halls'
     },
 
     {
         route: '/halls',
-        actions: 'create hall'
+        actions: 'Add New Hall'
     },
 
     {
         route: '/halls/update',
-        actions: 'update hall'
+        actions: 'Updata Hall'
     },
 
-    {
-        route: '/halls/getHall',
-        actions: 'view hall detail'
-    },
 
     {
         route: '/halls/delete',
-        actions: 'delete hall'
+        actions: 'Delete Hall'
     },
 
     {
@@ -66,17 +67,22 @@ var data = [
 
     {
         route: '/favorites/addToFavorites',
-        actions: 'add favorite'
+        actions: 'Add Favorite'
     },
 
     {
         route: '/favorites/deleteFromFavorites',
-        actions: 'remove favorite'
+        actions: 'Remove favorite'
+    },
+    {
+        route: '/favorites/deleteFromFavorites',
+        actions: 'Remove favorite'
     },
 ]
 
 var RouteActionsSeeder = Seeder.extend({
     shouldRun: async function () {
+        await routeActions.deleteMany()
         return routeActions.countDocuments().exec().then(count => count === 0);
     },
     run: async function () {

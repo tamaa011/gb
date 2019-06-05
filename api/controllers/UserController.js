@@ -1,3 +1,4 @@
+
 const UsersModelObject = require("../classes/Models/UsersModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
 const _filter = require("../classes/Decorators/filterObject");
@@ -65,12 +66,12 @@ class UsersController {
     })
     @_filter(['userPassword', 'userEmail', 'userName', 'userRole'])
     async addUser(allRequsetParams) {
-
+        
         let insertDataObj = {
             modelRef: this.modelRef,
             data: { ...allRequsetParams, isAdmin: true }
         }
-        let user = await this.userModel.createData(insertDataObj)
+        let user = await this.userModel.createData(insertDataObj)        
         return user
     }
 

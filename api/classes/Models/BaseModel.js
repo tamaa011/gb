@@ -16,7 +16,7 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let dataToInsert = params.data
-        let arrayOfData = await modelRefObj.insertMany(dataToInsert)
+        let arrayOfData = await modelRefObj.insertMany(dataToInsert)        
         return arrayOfData
 
     }
@@ -25,11 +25,14 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let dataToInsert = params.data;
         let _id = new mongoose.Types.ObjectId()
-        console.log(dataToInsert);
         let data = await modelRefObj.create({ ...dataToInsert, _id: _id })
         return data
     }
 
+    getMongooseId(id) {
+        return new mongoose.Types.ObjectId()
+
+    }
     async replaceData(params) {
 
         let modelRefObj = params.modelRef;
@@ -63,7 +66,7 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let query = params.query;
-        let arrayOfData = await modelRefObj.find(query)
+        let arrayOfData = await modelRefObj.find(query).lean()
         return arrayOfData;
 
     }
@@ -73,7 +76,7 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let modelToJoinRefObj = params.modelToJoinRef
         let query = params.query;
-        let arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`)
+        let arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`).lean()
         return arrayOfData;
 
     }

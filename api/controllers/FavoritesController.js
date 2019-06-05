@@ -55,10 +55,11 @@ class FavoritesController {
 
         let getDataWithQueryObj = {
             modelRef : this.modelRef,
-            query :{userId : allRequestParams.userId}
+            query :{userId : allRequestParams.userId},
+            modelToJoinRef : "hallId"
         }
 
-        let userFavorites = await this.favoritesModel.getDataWithQuery(getDataWithQueryObj);
+        let userFavorites = await this.favoritesModel.getDataWithQueryAndJoin(getDataWithQueryObj);
         return userFavorites
         
     }

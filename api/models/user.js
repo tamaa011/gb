@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const EncryptService = require("../classes/services/EncryptService");
 
 const userSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     userName: { type: String, required: true },
     userEmail: {
         type: String,

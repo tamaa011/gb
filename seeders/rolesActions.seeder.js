@@ -2,122 +2,101 @@ var Seeder = require('mongoose-data-seed').Seeder;
 const roleActions = require('../api/models/rolesActions');
 
 var data = [
+
     {
         role: "root",
-        actions: [
-            {
-                name: "delete hall"
-            },
-            {
-                name: "update hall"
-            },
+        actions: {
+            Halls: [
+                "Add New Hall",
+                "List All Halls",
+                "BackGround List Halls Categories",
+                "Search For Hall",
+                "Updata Hall",
+                "Delete Hall",
+                "Add Category"
+            ],
 
-            {
-                name: "list halls"
-            },
-            {
-                name: "create hall"
-            },
-            {
-                name: 'view hall detail'
-            },
-            {
-                name: "push notification"
-            },
-            {
-                name: 'delete user'
-            },
-            {
-                name: 'view user details'
 
-            },
-            {
-                name: 'list users'
-            },
-            {
-                name: 'change password'
-            },
+            Users: [
+                "Add New User",
+                "List All Users",
+                "Delete User"
+            ],
+            Admin: [
+                "Add New User",
+                "List All Admins",
+                "Update User Role",
+                "Change password",
+                "Delete Admin",
+                "BackGround List Roles",
+                "Push Notification",
 
-        ]
+            ]
+        },
     },
     {
         role: "admin",
-        actions: [
+        actions: {
+            Halls: [
+                "Add New Hall",
+                "List All Halls",
+                "BackGround List Halls Categories",
+                "Search For Hall",
+                "Updata Hall",
+                "Add Category",
+            ],
+            Users: [
+                "Add New User",
+                "List All Users",
+            ],
 
-            {
-                name: "update hall"
-            },
-            {
-                name: "list halls"
-            },
-            {
-                name: "create hall"
-            },
-            {
-                name: 'view hall detail'
-            },
-            {
-                name: "push notification"
-            },
-            {
-                name: 'list users'
-            },
-            {
-                name: 'view user details'
-
-            },
-            {
-                name: 'change password'
-            },
-        ]
+            Admin: [
+                "Add New User",
+                "List All Users",
+                "Update Roles",
+                "Change password",
+            ]
+        },
     },
     {
         role: "worker",
-        actions: [
-            {
-                name: 'change password'
+        actions: {
+            Halls: [
 
-            },
-            {
-                name: 'list users'
-            },
-            {
-                name: 'view hall detail'
-            },
-            {
-                name: "list halls"
-            },
-            {
-                name: 'view user details'
-
-            },
-
-        ]
+                "List All Halls",
+                "BackGround List Halls Categories",
+                "Search For Hall",
+            ],
+            Admin: [
+                "Change password",
+            ]
+        }
     },
     {
-        role : "user",
-        actions :[
-            {
-                name : 'change password'
-            },
-            {
-                name: 'view hall detail'
-            },
-            {
-                name: 'list halls'
-            },
-            {
-                name: 'add favoritel'
-            },
-            {
-                name: 'remove favorite'
-            },
-        ]
+        role: "user",
+        actions: {
+            Halls: [
+                "List All Halls",
+                "BackGround List Halls Categories",
+                "Search For Hall",
+                "Rate Hall",
+                "Add Favorite",
+                "Remove Favorite",
+                "List Favorites"
+            ],
+
+
+            Users: [
+                "Change password",
+                "Update Basic Info"
+            ]
+        }
     }
 ]
 
 var RoleActionsSeeder = Seeder.extend({
     shouldRun: async function () {
+        await roleActions.deleteMany()
         return roleActions.countDocuments().exec().then(count => count === 0);
     },
     run: async function () {

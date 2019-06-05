@@ -9,6 +9,7 @@ const checkAuth = require('../middleware/check-auth');
 const permissions = require('../middleware/permissions');
 
 const HallsController = require('../controllers/HallsController');
+const MailServices = require('../classes/services/MailServices');
 
 // uploading images..
 //--------------------------------------------------------------------------------------
@@ -66,8 +67,9 @@ router.post('/', checkAuth, upload.array('hallImage', 6), (req, res, next) => {
 });
 
 
-router.post('/listHalls', async (req, res, next) => {
+router.post('/listHalls', checkAuth, permissions, async (req, res, next) => {
     try {
+        // await MailServices.sendMail({})
         let hallsArray = await HallsController.hallsListing({ ...req.body, ...req.headers, ...req.params, ...req.query })
         return res.status(200).json({ success: true, data: hallsArray });
     } catch (error) {

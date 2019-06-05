@@ -66,7 +66,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
 // sign in user 
 //------------------------------------------------------------------------------------------
 router.post('/signin', (req, res, next) => {
-    User.find({ userEmail: req.body.userEmail }).exec().then(user => {
+    User.find({ userEmail: req.body.userEmail }).populate('userRole').exec().then(user => {
         if (user.length < 1) {
             return res.status(401).json({
                 error: 'Auth failed'

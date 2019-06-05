@@ -1,4 +1,8 @@
 {
     "dataBaseUrl": "mongodb+srv://GroomAndBride:123123123@groomandbridecluster-jwktt.mongodb.net/test?retryWrites=true",
-    "fireBaseDataBaseUrl" : "https://groomandbride-57ebd.firebaseio.com"
+    "fireBaseDataBaseUrl": "https://groomandbride-57ebd.firebaseio.com",
+    "adminEmail": "prideandgroomteam@gmail.com",
+    "adminEmailPassword": "(TAMAA@team**#S",
+    "mailHost": "smtp.ethereal.email",
+    "mailPort" : 587
 }
