@@ -4,7 +4,7 @@ const routeActions = require('../api/models/routeActions');
 var data = [
 
     {
-        route: '/users',
+        route: '/users/',
         actions: "List All Users"
     },
     {

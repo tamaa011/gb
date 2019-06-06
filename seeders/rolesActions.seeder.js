@@ -1,10 +1,12 @@
 var Seeder = require('mongoose-data-seed').Seeder;
 const roleActions = require('../api/models/rolesActions');
+const mongoose = require('mongoose');
 
 var data = [
 
     {
         role: "root",
+        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb8f'),
         actions: {
             Halls: [
                 "Add New Hall",
@@ -38,6 +40,7 @@ var data = [
     },
     {
         role: "admin",
+        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb91'),
         actions: {
             Halls: [
                 "Add New Hall",
@@ -64,6 +67,7 @@ var data = [
     },
     {
         role: "worker",
+        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb93'),
         actions: {
             Halls: [
 
@@ -80,6 +84,7 @@ var data = [
     },
     {
         role: "user",
+        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb95'),
         actions: {
             Halls: [
                 "List All Halls",

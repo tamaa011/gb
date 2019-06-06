@@ -14,10 +14,11 @@ module.exports = async (req, res, next) => {
       modelToJoinRef: "userRole",
       query: { _id: userId }
     })
-
+    
     let userActions = userAndRoles[0] ? userAndRoles[0].userRole.actions : []
     userActions = userActions[0]
     let reqPath = `${req.baseUrl}${req.path}`;
+    
     let routeAction = await baseModel.getDataWithQuery({
       modelRef: routeActions,
       query: { route: reqPath },
