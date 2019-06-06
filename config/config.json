@@ -3,6 +3,6 @@
     "fireBaseDataBaseUrl": "https://groomandbride-57ebd.firebaseio.com",
     "adminEmail": "prideandgroomteam@gmail.com",
     "adminEmailPassword": "(TAMAA@team**#S",
-    "mailHost": "smtp.ethereal.email",
-    "mailPort" : 587
+    "forgetPasswordPage": "https://tamaa011.github.io/tamaaa.github.io/resetpassword.html",
+    "forgetPassTokenExpiryDuration" : 15
 }

@@ -26,8 +26,7 @@ const favoritesRoutes = require('./api/routes/favorites');
 const ratingRoutes = require('./api/routes/rating');
 const notification = require('./api/routes/notification');
 const rolesRoutes = require('./api/routes/roles');
-const hall = require('./api/models/hall');
-
+const feedbackRoutes = require('./api/routes/feedback');
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -73,7 +72,7 @@ app.use('/rating', ratingRoutes);
 app.use('/notification', notification);
 app.use('/roles', rolesRoutes);
 app.use('/category', categoriesRoutes);
-
+app.use('/feedback', feedbackRoutes);
 
 // handle error
 app.use((req, res, next) => {

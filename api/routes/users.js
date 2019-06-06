@@ -162,6 +162,43 @@ router.post('/updatePassword', checkAuth, async (req, res, next) => {
 });
 
 
+router.post('/forgetPassword', async (req, res, next) => {
+    try {
+
+        await UsersController.forgetPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, message: "email has sent to you to reset your password" });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: (error.message) });
+
+    }
+});
+
+router.post('/verifyToken', async (req, res, next) => {
+
+    try {
+        await UsersController.validateToken({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, message: "valid token link" });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: (error.message) });
+
+    }
+})
+
+router.post('/setPassword', async (req, res, next) => {
+
+    try {
+        await UsersController.setPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, message: "user password updated" });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: (error.message) });
+
+    }
+})
+
+
 router.post('/updateBasicInfo', checkAuth, async (req, res, next) => {
     try {
 

@@ -2,6 +2,8 @@
 const UsersModelObject = require("../classes/Models/UsersModelObject");
 const _applyValidators = require("../classes/Decorators/applyValidators");
 const _filter = require("../classes/Decorators/filterObject");
+const config = require("../../config/config.json")
+const mail = require("../../api/classes/services/MailServices")
 
 
 class UsersController {
@@ -37,8 +39,90 @@ class UsersController {
         }
         if (!isMatched)
             throw new Error(JSON.stringify([{ field: "userPassword", message: "wrong Password" }]))
+    }
+
+    @_applyValidators({ 'required': ['email'], 'email': ['email'], })
+    async forgetPassword(allRequsetParams) {
+
+        let email = allRequsetParams.email
+        let user = await this.userModel.getDataWithQuery({
+            modelRef: this.modelRef,
+            query: { userEmail: email }
+        })
+
+        user = user[0]
+
+        if (!user)
+            throw new Error('wrong email')
+
+        let token = `${user._id}~${new Date().getTime()}`
+        let forgetPasswordLink = `${config.forgetPasswordPage}?token=${token}`
+
+        let forgetPasswordEmailObj = {
+            to: email,
+            subject: 'reset password',
+            html: `<p> to reset your password click <a href=${forgetPasswordLink}>here</a></p>`
+        }
+        mail.sendMail(forgetPasswordEmailObj)
+
+        await this.userModel.updateData({
+            modelRef: this.modelRef,
+            query: { userEmail: email },
+            data: { forgetPassToken: token }
+        })
+    }
+
+    @_applyValidators({ 'required': ['token'] })
+    async validateToken(allRequsetParams) {
+
+        let token = allRequsetParams.token
+        let tokenArray = token.split('~')
+        let userId = tokenArray[0]
+
+        let user = await this.userModel.getDataWithQuery({
+            modelRef: this.modelRef,
+            query: { _id: userId }
+        })
+
+        user = user[0]
+
+        if (!user || (user && user.forgetPassToken !== token))
+            throw new Error('invalid token link')
+
+        let createdTokenTime = tokenArray[1];
+        let currentTime = new Date().getTime()
+        let timeDiff = (currentTime - createdTokenTime) / 1000 / 60
+
+        if (timeDiff > config.forgetPassTokenExpiryDuration)
+            throw new Error('expired token link')
+    }
 
 
+    @_applyValidators({
+        'required': ['password', 'rePassword', 'token'],
+        'minLength': [['password', 'rePassword'], [6, 6]],
+        'maxLength': [['password', 'rePassword'], [15, 15]],
+        'match': ['password', 'rePassword']
+    })
+    async setPassword(allRequsetParams) {
+
+        let token = allRequsetParams.token
+        let tokenArray = token.split('~')
+        let userId = tokenArray[0]
+
+        let user = await this.userModel.getDataWithQuery({
+            modelRef: this.modelRef,
+            query: { _id: userId }
+        })
+
+        user = user[0]
+
+        if (!user || (user && user.forgetPassToken !== token))
+            throw new Error('invalid token link')
+
+        user.userPassword = allRequsetParams.password;
+        user.forgetPassToken = null
+        await user.save()
     }
 
     @_applyValidators({
@@ -66,12 +150,12 @@ class UsersController {
     })
     @_filter(['userPassword', 'userEmail', 'userName', 'userRole'])
     async addUser(allRequsetParams) {
-        
+
         let insertDataObj = {
             modelRef: this.modelRef,
             data: { ...allRequsetParams, isAdmin: true }
         }
-        let user = await this.userModel.createData(insertDataObj)        
+        let user = await this.userModel.createData(insertDataObj)
         return user
     }
 

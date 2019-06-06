@@ -4,11 +4,9 @@ const config = require("../../../config/config.json")
 class MailService {
 
     getTransaporter() {
-            
+
         return nodemailer.createTransport({
-            host: config.mailHost,
-            port: config.mailPort,
-            secure: false,
+            service: 'gmail',
             auth: {
                 user: config.adminEmail,
                 pass: config.adminEmailPassword
@@ -16,23 +14,23 @@ class MailService {
         });
     }
 
-    async main(transporter, emailObj) {
+    main(transporter, mailOptions) {
 
-        await transporter.sendMail({
-            from: config.adminEmail,
-            to: emailObj.userEmail || "ebrahimali192@yahoo.com",
-            subject: "Hello ✔",
-            text: "Hello world?",
-            html: "<b>Hello world?</b>"
-        });
+        transporter.sendMail(mailOptions)
     }
 
-    async sendMail(emailObj) {
+    getMailOptions(mailObj) {
+
+        return { ...mailObj, from: config.adminEmail }
+    }
+
+    sendMail(emailObj) {
 
         try {
 
             let transporter = this.getTransaporter();
-            await this.main(transporter, emailObj)
+            let mailOptions = this.getMailOptions(emailObj)
+            this.main(transporter, mailOptions)
 
         } catch (error) {
 

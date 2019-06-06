@@ -69,7 +69,6 @@ router.post('/', checkAuth, upload.array('hallImage', 6), (req, res, next) => {
 
 router.post('/listHalls', checkAuth, permissions, async (req, res, next) => {
     try {
-        // await MailServices.sendMail({})
         let hallsArray = await HallsController.hallsListing({ ...req.body, ...req.headers, ...req.params, ...req.query })
         return res.status(200).json({ success: true, data: hallsArray });
     } catch (error) {

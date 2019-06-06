@@ -10,11 +10,13 @@ const userSchema = mongoose.Schema({
     },
     userPassword: { type: String, required: true },
     userRole: { type: mongoose.Schema.Types.ObjectId, ref: 'RolesActions' },
-    isAdmin: { type: Boolean, required: true }
+    isAdmin: { type: Boolean },
+    forgetPassToken: { type: String }
 });
 
 userSchema.pre('save', async function (next) {
 
+    console.log("hook has been triggred");
     this._doc.userPassword = await EncryptService.hashText(this._doc.userPassword);
     next();
 })
