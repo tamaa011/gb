@@ -90,8 +90,6 @@ var data = [
                 "Remove Favorite",
                 "List Favorites"
             ],
-
-
             Users: [
                 "Change password",
                 "Update Basic Info"

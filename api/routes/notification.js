@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const checkAuth = require('../middleware/check-auth');
+const permissions = require('../middleware/permissions');
 const thirdParty = require('../../config/initThirdParty')
 
 
 
-router.post('/pushNotification', checkAuth, async (req, res, next) => {
+router.post('/pushNotification', checkAuth, permissions, async (req, res, next) => {
 
     try {
 

@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+const permissions = require('../middleware/permissions');
 const UsersController = require('../controllers/UserController');
 
 // sign up user 
@@ -29,7 +30,8 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         userName: req.body.userName,
                         userEmail: req.body.userEmail,
                         userPassword: req.body.userPassword,
-                        isAdmin: false
+                        isAdmin: false,
+                        userRole : req.body.userRole
                     });
 
 
@@ -117,7 +119,7 @@ router.post('/signin', (req, res, next) => {
 
 // get request
 //------------------------------------------------------------------------------------------
-router.get('/', checkAuth, async (req, res, next) => { // get all users we have on database
+router.post('/', checkAuth,permissions, async (req, res, next) => { // get all users we have on database
 
     User.find().select("_id userName userEmail userPassword").populate("userRole")
         .exec().then(allUsers => {
@@ -132,7 +134,7 @@ router.get('/', checkAuth, async (req, res, next) => { // get all users we have 
         });
 });
 
-router.get('/listSystemUsers', checkAuth, async (req, res, next) => { // get all users we have on database
+router.post('/listSystemUsers', checkAuth, permissions, async (req, res, next) => { // get all users we have on database
 
     let limit = req.body.limit;
     let skip = req.body.limit * req.body.offset
@@ -149,7 +151,7 @@ router.get('/listSystemUsers', checkAuth, async (req, res, next) => { // get all
         });
 });
 
-router.post('/updatePassword', checkAuth, async (req, res, next) => {
+router.post('/updatePassword', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.updatePassword({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
@@ -199,7 +201,7 @@ router.post('/setPassword', async (req, res, next) => {
 })
 
 
-router.post('/updateBasicInfo', checkAuth, async (req, res, next) => {
+router.post('/updateBasicInfo', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.updateBasicInfo({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
@@ -211,7 +213,7 @@ router.post('/updateBasicInfo', checkAuth, async (req, res, next) => {
     }
 });
 
-router.post('/updateRole', checkAuth, async (req, res, next) => {
+router.post('/updateRole', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.updateUserRole({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
@@ -223,7 +225,7 @@ router.post('/updateRole', checkAuth, async (req, res, next) => {
     }
 });
 
-router.post('/addUser', checkAuth, async (req, res, next) => {
+router.post('/addUser', checkAuth, permissions, async (req, res, next) => {
     try {
 
         let user = await UsersController.addUser({ ...req.body, ...req.headers, ...req.params, ...req.query })

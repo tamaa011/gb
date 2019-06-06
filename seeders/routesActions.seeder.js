@@ -48,7 +48,7 @@ var data = [
 
     {
         route: '/rating/rateHalls',
-        actions: 'Rate hall'
+        actions: 'Rate Hall'
     },
 
     {

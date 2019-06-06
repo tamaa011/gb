@@ -4,6 +4,7 @@ const _applyValidators = require("../classes/Decorators/applyValidators");
 const _filter = require("../classes/Decorators/filterObject");
 const config = require("../../config/config.json")
 const mail = require("../../api/classes/services/MailServices")
+const EncryptService = require("../../api/classes/services/EncryptService")
 
 
 class UsersController {
