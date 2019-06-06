@@ -11,6 +11,7 @@ var data = [
                 "List All Halls",
                 "BackGround List Halls Categories",
                 "Search For Hall",
+                "BackGround Filter By Category",
                 "Updata Hall",
                 "Delete Hall",
                 "Add Category"
@@ -29,6 +30,7 @@ var data = [
                 "Change password",
                 "Delete Admin",
                 "BackGround List Roles",
+                "List Feedbacks",
                 "Push Notification",
 
             ]
@@ -41,6 +43,7 @@ var data = [
                 "Add New Hall",
                 "List All Halls",
                 "BackGround List Halls Categories",
+                "BackGround Filter By Category",
                 "Search For Hall",
                 "Updata Hall",
                 "Add Category",
@@ -53,8 +56,9 @@ var data = [
             Admin: [
                 "Add New User",
                 "List All Users",
-                "Update Roles",
+                "Update User Role",
                 "Change password",
+                "List Feedbacks"
             ]
         },
     },
@@ -65,10 +69,12 @@ var data = [
 
                 "List All Halls",
                 "BackGround List Halls Categories",
+                "BackGround Filter By Category",
                 "Search For Hall",
             ],
             Admin: [
                 "Change password",
+                "List Feedbacks"
             ]
         }
     },

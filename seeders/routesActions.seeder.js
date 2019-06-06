@@ -20,6 +20,27 @@ var data = [
     },
 
     {
+        route: '/users/addUser',
+        actions: 'Add New User'
+
+    },
+    {
+        route: '/users/listSystemUsers',
+        actions: 'List All Admins'
+
+    },
+    {
+        route: '/users/updateBasicInfo',
+        actions: 'Update Basic Info'
+
+    },
+    {
+        route: '/users/updateRole',
+        actions: 'Update User Role'
+
+    },
+    
+    {
         route: '/roles/listRoles',
         actions: 'BackGround List Roles'
 
@@ -38,10 +59,18 @@ var data = [
         route: '/halls/listHalls',
         actions: 'List All Halls'
     },
+    {
+        route: '/halls/searchByName',
+        actions: 'Search For Halls'
+    },
+    {
+        route: '/halls/searchByName',
+        actions: 'Search For Halls'
+    },
 
     {
-        route: '/halls',
-        actions: 'Add New Hall'
+        route: '/halls/searchByCategory',
+        actions: 'BackGround Filter By Category'
     },
 
     {
@@ -56,13 +85,13 @@ var data = [
     },
 
     {
-        route: '/halls/deActivate',
-        actions: 'deActivate hall'
+        route: '/category/addCategory',
+        actions: 'Add Category'
     },
 
     {
-        route: '/halls/activate',
-        actions: 'activate hall'
+        route: '/category/listCategories',
+        actions: ' "BackGround List Halls Categories"'
     },
 
     {
@@ -77,6 +106,10 @@ var data = [
     {
         route: '/favorites/deleteFromFavorites',
         actions: 'Remove favorite'
+    },
+    {
+        route: '/feedback/listFeedback',
+        actions: 'List Feedbacks'
     },
 ]
 
