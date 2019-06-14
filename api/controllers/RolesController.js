@@ -9,12 +9,12 @@ class RolesController {
         this.modelRef = this.rolesModel.modelRef
     }
 
-    async listRoles(params) {
+    async listRoles(allRequestParams) {
 
         let getDataWithPaginationObj = {
             modelRef: this.modelRef,
-            limit : params.limit,
-            offset : params.offset
+            limit : allRequestParams.limit,
+            offset : allRequestParams.offset
         }
         
         let roles = await this.rolesModel.getDataWithPagination(getDataWithPaginationObj)        

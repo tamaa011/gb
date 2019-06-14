@@ -27,6 +27,8 @@ const ratingRoutes = require('./api/routes/rating');
 const notification = require('./api/routes/notification');
 const rolesRoutes = require('./api/routes/roles');
 const feedbackRoutes = require('./api/routes/feedback');
+const policyAndPrivacyRoutes = require('./api/routes/policyAndPrivacy');
+
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -73,6 +75,8 @@ app.use('/notification', notification);
 app.use('/roles', rolesRoutes);
 app.use('/category', categoriesRoutes);
 app.use('/feedback', feedbackRoutes);
+app.use('/policyAndPrivacy', policyAndPrivacyRoutes);
+
 
 // handle error
 app.use((req, res, next) => {

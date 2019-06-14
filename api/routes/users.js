@@ -31,7 +31,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         userEmail: req.body.userEmail,
                         userPassword: req.body.userPassword,
                         isAdmin: false,
-                        userRole : req.body.userRole
+                        userRole: req.body.userRole
                     });
 
 
@@ -119,7 +119,7 @@ router.post('/signin', (req, res, next) => {
 
 // get request
 //------------------------------------------------------------------------------------------
-router.post('/', checkAuth,permissions, async (req, res, next) => { // get all users we have on database
+router.post('/', checkAuth, permissions, async (req, res, next) => { // get all users we have on database
 
     User.find().select("_id userName userEmail userPassword").populate("userRole")
         .exec().then(allUsers => {
@@ -230,6 +230,18 @@ router.post('/addUser', checkAuth, permissions, async (req, res, next) => {
 
         let user = await UsersController.addUser({ ...req.body, ...req.headers, ...req.params, ...req.query })
         return res.status(200).json({ success: true, message: "user added successfully", data: user });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, error: (error.message) });
+
+    }
+});
+
+router.post('/deleteAdmin', checkAuth, permissions, async (req, res, next) => {
+    try {
+
+        await UsersController.deleteAdmin({ ...req.body, ...req.headers, ...req.params, ...req.query })
+        return res.status(200).json({ success: true, message: "user deleted successfully" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ success: false, error: (error.message) });

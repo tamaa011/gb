@@ -30,6 +30,11 @@ var data = [
 
     },
     {
+        route: '/users/deleteAdmin',
+        actions: 'Delete Admin'
+
+    },
+    {
         route: '/users/updateBasicInfo',
         actions: 'Update Basic Info'
 
@@ -91,7 +96,16 @@ var data = [
 
     {
         route: '/category/listCategories',
-        actions: ' "BackGround List Halls Categories"'
+        actions: 'BackGround List Halls Categories'
+    },
+
+    {
+        route: '/category/addPolicyAndPrivacy',
+        actions: 'Add Privacy Policy And Service Terms'
+    },
+    {
+        route: '/category/getPolicyAndPrivacy',
+        actions: 'Get Privacy Policy And Service Terms'
     },
 
     {

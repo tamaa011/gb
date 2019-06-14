@@ -32,9 +32,14 @@ var data = [
                 "Change password",
                 "Delete Admin",
                 "BackGround List Roles",
+                "BackGround Delete Admin",
                 "List Feedbacks",
                 "Push Notification",
 
+            ],
+            Other :[
+                'Add Privacy Policy And Service Terms',
+                'Get Privacy Policy And Service Terms'
             ]
         },
     },

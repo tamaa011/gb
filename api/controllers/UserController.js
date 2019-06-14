@@ -169,7 +169,18 @@ class UsersController {
             query: { _id: allRequsetParams.userId },
             data: { userRole: allRequsetParams.userRole }
         }
-        await this.userModel.updateData(updateDataObj)
+        let updateData = await this.userModel.updateData(updateDataObj)
+        return updateData
+    }
+
+    async deleteAdmin(allRequsetParams) {
+
+        let deleteDataObj = {
+            modelRef: this.modelRef,
+            query: { _id: allRequsetParams._id }
+        }
+        let removed = await this.userModel.deleteData(deleteDataObj)
+        return removed
     }
 }
 
