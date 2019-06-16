@@ -48,13 +48,12 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                     user.save().then(reuslt => {
                         res.status(200).json({
                             message: 'User sign up successfully',
-                            user: user,
-                            token: token
+                            user: {...user,...{token:token}},
                         });
 
                     }).catch(error => {
                         console.log(error);
-                        res.status(500).json({ error: error });
+                        res.status(500).json({ error: error.message });
                     });
                 }
             });
@@ -96,8 +95,7 @@ router.post('/signin', (req, res, next) => {
 
                 return res.status(200).json({
                     message: 'Auth successfull',
-                    user: user,
-                    token: token
+                    user: {...user,...{token:token}},
                 });
             }
 
@@ -109,7 +107,7 @@ router.post('/signin', (req, res, next) => {
 
     }).catch(error => {
         console.log(error);
-        res.status(500).json({ error: error });
+        res.status(500).json({ error: error.message });
     });
 
 });
