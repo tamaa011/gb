@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/user');
+const rolesActions = require('../models/rolesActions');
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -19,6 +21,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
             });
         } else {
 
+            let userRole = rolesActions.findOne({ role: 'user' })
             bcrypt.hash(req.body.userPassword, 10, (err, hash) => {
                 if (err) {
                     return res.status(500).json({
@@ -31,7 +34,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         userEmail: req.body.userEmail,
                         userPassword: req.body.userPassword,
                         isAdmin: false,
-                        userRole: req.body.userRole
+                        userRole: userRole._id
                     });
 
 
@@ -48,7 +51,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                     user.save().then(reuslt => {
                         res.status(200).json({
                             message: 'User sign up successfully',
-                            user: {...user,...{token:token}},
+                            user: { ...user, ...{ token: token } },
                         });
 
                     }).catch(error => {
@@ -95,7 +98,7 @@ router.post('/signin', (req, res, next) => {
 
                 return res.status(200).json({
                     message: 'Auth successfull',
-                    user: {...user,...{token:token}},
+                    user: { ...user, ...{ token: token } },
                 });
             }
 
