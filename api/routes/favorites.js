@@ -11,10 +11,10 @@ router.post('/addToFavorites', checkAuth, permissions, async (req, res, next) =>
 
     try {
         await FavoritesController.addToFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ success: true, message: "favorites added successfully" });
+        return res.status(200).json({ result: true, message: "favorites added successfully" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 });
 
@@ -23,10 +23,10 @@ router.post('/deleteFromFavorites', checkAuth, permissions, async (req, res, nex
 
     try {
         await FavoritesController.deleteFromFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ success: true, message: "favorites deleted successfully" });
+        return res.status(200).json({ result: true, message: "favorites deleted resultfully" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 });
 
@@ -35,10 +35,10 @@ router.post('/listFavorites', checkAuth, async (req, res, next) => {
 
     try {
         let userFavorites = await FavoritesController.listFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ success: true, data: userFavorites });
+        return res.status(200).json({ result: true, data: userFavorites });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 });
 

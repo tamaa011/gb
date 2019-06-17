@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : null;
 
     if (!token)
-        return res.status(401).send({ success: false, message: " auth failed" })
+        return res.status(401).send({ result: false, message: " auth failed" })
 
     jwt.verify(token, 'tamaaGamedAwe', function (err, decoded) {
 
@@ -28,14 +28,14 @@ module.exports = (req, res, next) => {
                         expiresIn: "1h"
                     });
 
-                return res.status(400).send({ success: false, token: token, refreshToken: true })
+                return res.status(400).send({ result: false, token: token, refreshToken: true })
             }
 
-            return res.status(401).send({ success: false, message: " auth failed" })
+            return res.status(401).send({ result: false, message: " auth failed" })
 
         }
 
-        return res.status(401).send({ success: false, message: " auth failed" })
+        return res.status(401).send({ result: false, message: " auth failed" })
     });
 
 

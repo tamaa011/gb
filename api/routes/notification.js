@@ -17,10 +17,10 @@ router.post('/pushNotification', checkAuth, permissions, async (req, res, next) 
         let ref = thirdParty.ref('SendPushNotificationNode');
         ref.push(pushNotificationObj)
 
-        return res.status(200).send({ success: true, message: "notification was sent successfully" })
+        return res.status(200).send({ result: true, message: "notification was sent successfully" })
     } catch (error) {
         console.log(error);
-        return res.status(400).send({ success: false, error: error.message });
+        return res.status(400).send({ result: false, error: error.message });
     }
 
 

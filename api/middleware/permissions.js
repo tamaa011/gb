@@ -14,6 +14,7 @@ module.exports = async (req, res, next) => {
       modelToJoinRef: "userRole",
       query: { _id: userId }
     })
+    console.log(userAndRoles);
     
     let userActions = userAndRoles[0] ? userAndRoles[0].userRole.actions : []
     userActions = userActions[0]
@@ -33,11 +34,11 @@ module.exports = async (req, res, next) => {
         return next()
     }
 
-    return res.send({ success: false, error: "you dont have permission do perform this action" });
+    return res.send({ result: false, message: "you dont have permission do perform this action" });
 
   } catch (error) {
     console.log(error);
-    return res.send({ success: false, error: error.message });
+    return res.send({ result: false, message: error.message });
 
   }
 

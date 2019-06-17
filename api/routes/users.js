@@ -51,13 +51,14 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
 
                     user.save().then(reuslt => {
                         res.status(200).json({
+                            result: true,
                             message: 'User sign up successfully',
                             user: { ...user, ...{ token: token } },
                         });
 
                     }).catch(error => {
                         console.log(error);
-                        res.status(500).json({ error: error.message });
+                        res.status(500).json({ result: false, message: error.message });
                     });
                 }
             });
@@ -157,10 +158,10 @@ router.post('/updatePassword', checkAuth, permissions, async (req, res, next) =>
     try {
 
         await UsersController.updatePassword({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ success: true, message: "user password updated" });
+        return res.status(200).json({ result: true, message: "user password updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
 
     }
 });
@@ -170,10 +171,10 @@ router.post('/forgetPassword', async (req, res, next) => {
     try {
 
         await UsersController.forgetPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, message: "email has sent to you to reset your password" });
+        return res.status(200).json({ result: true, message: "email has sent to you to reset your password" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: (error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 });
@@ -182,10 +183,10 @@ router.post('/verifyToken', async (req, res, next) => {
 
     try {
         await UsersController.validateToken({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, message: "valid token link" });
+        return res.status(200).json({ result: true, message: "valid token link" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: (error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 })
@@ -194,10 +195,10 @@ router.post('/setPassword', async (req, res, next) => {
 
     try {
         await UsersController.setPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, message: "user password updated" });
+        return res.status(200).json({ result: true, message: "user password updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: (error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 })
@@ -207,10 +208,10 @@ router.post('/updateBasicInfo', checkAuth, permissions, async (req, res, next) =
     try {
 
         await UsersController.updateBasicInfo({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ success: true, message: "user Name updated" });
+        return res.status(200).json({ result: true, message: "user Name updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
 
     }
 });
@@ -219,10 +220,10 @@ router.post('/updateRole', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.updateUserRole({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ success: true, message: "user Role updated" });
+        return res.status(200).json({ result: true, message: "user Role updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
 
     }
 });
@@ -231,10 +232,10 @@ router.post('/addUser', checkAuth, permissions, async (req, res, next) => {
     try {
 
         let user = await UsersController.addUser({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, message: "user added successfully", data: user });
+        return res.status(200).json({ result: true, message: "user added resultfully", data: user });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: (error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 });
@@ -243,10 +244,10 @@ router.post('/deleteAdmin', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.deleteAdmin({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, message: "user deleted successfully" });
+        return res.status(200).json({ result: true, message: "user deleted resultfully" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, error: (error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 });
@@ -262,7 +263,7 @@ router.get('/:userID', checkAuth, (req, res, next) => { // get specific user inf
 
     }).catch(error => {
         console.log(error);
-        res.status(500).json({ error: error });
+        res.status(500).json({ message: error });
     });
 });
 
@@ -276,7 +277,7 @@ router.delete('/:userID', (req, res, nect) => {  // delete user from database by
         });
     }).catch(error => {
         console.log(error);
-        res.status(500).json({ error: error });
+        res.status(500).json({ message: error });
     });
 });
 

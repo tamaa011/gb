@@ -10,7 +10,7 @@ const permissions = require('../middleware/permissions');
 
 const HallsController = require('../controllers/HallsController');
 const MailServices = require('../classes/services/MailServices');
-
+const upload = require('../classes/services/uploader')
 // uploading images..
 //--------------------------------------------------------------------------------------
 const storage = multer.diskStorage({
@@ -21,21 +21,30 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + file.originalname);
     }
 });
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-        cb(null, true);
-    } else {
-        cb(Error('image is not valid'), false);
-    }
-};
-const upload = multer({
-    storage: storage, limits: {
-        fileSize: 1024 * 1024 * 30
-    },
-    fileFilter: fileFilter
-});
+// const fileFilter = (req, file, cb) => {
+//     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+//         cb(null, true);
+//     } else {
+//         cb(Error('image is not valid'), false);
+//     }
+// };
+// const upload = multer({
+//     storage: storage, limits: {
+//         fileSize: 1024 * 1024 * 30
+//     },
+//     fileFilter: fileFilter
+// });
 
-var result = new Array()
+// var result = new Array()
+var singleUpload = upload.single('hallImage')
+
+router.post('/upload', function (req, res, next) {
+    singleUpload(req, res, function (err) {
+        console.log(err);
+        return res.send(req.file.location)
+    })
+})
+
 router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res, next) => {
     result = []; // insert new hall into ddatabase with images limited to 6
     for (var i = 0; i < req.files.length; i++) {
@@ -57,7 +66,7 @@ router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res
     });
     newHall.save().then(result => {
         res.status(200).json({
-            message: 'Hall Saved Successfully',
+            message: 'Hall Saved resultfully',
             hall: newHall
         });
     }).catch(error => {
@@ -70,10 +79,10 @@ router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res
 router.post('/listHalls', async (req, res, next) => {
     try {
         let hallsArray = await HallsController.hallsListing({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, data: hallsArray });
+        return res.status(200).json({ result: true, data: hallsArray });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
 
     }
 });
@@ -82,10 +91,10 @@ router.post('/searchByName', async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.searchByName({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, data: hallsArray });
+        return res.status(200).json({ result: true, data: hallsArray });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 })
 
@@ -93,10 +102,10 @@ router.post('/searchByCategory', async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.searchByCategory({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, data: hallsArray });
+        return res.status(200).json({ result: true, data: hallsArray });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 })
 
@@ -105,10 +114,10 @@ router.post('/update', checkAuth, permissions, async (req, res, next) => {
 
     try {
         let hallsArray = await HallsController.updateHall({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ success: true, data: hallsArray });
+        return res.status(200).json({ result: true, data: hallsArray });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(400).json({ result: false, message: error.message });
     }
 })
 
@@ -144,7 +153,7 @@ router.delete('/:HallID', (req, res, next) => { // delete hall by id
                 } // loop end
 
                 return res.status(200).json({
-                    message: 'hall deleted with its images successfully'
+                    message: 'hall deleted with its images resultfully'
                 });
 
             }).catch(error => {
