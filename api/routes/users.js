@@ -14,14 +14,15 @@ const UsersController = require('../controllers/UserController');
 // sign up user 
 //------------------------------------------------------------------------------------------
 router.post('/signup', (req, res, next) => { // sign up new user and check if exist first
-    User.find({ userEmail: req.body.userEmail }).exec().then(user => {
+    User.find({ userEmail: req.body.userEmail }).exec().then(async user => {
         if (user.length >= 1) {
             return res.status(409).json({
                 error: 'Mail exists'
             });
         } else {
 
-            let userRole = rolesActions.findOne({ role: 'user' })
+            let userRole = await rolesActions.findOne({ role: 'user' })
+
             bcrypt.hash(req.body.userPassword, 10, (err, hash) => {
                 if (err) {
                     return res.status(500).json({
