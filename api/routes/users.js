@@ -1,5 +1,7 @@
 
 const express = require("express");
+var app = express();
+
 const router = express.Router();
 const User = require('../models/user');
 const rolesActions = require('../models/rolesActions');

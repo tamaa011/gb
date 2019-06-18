@@ -11,16 +11,17 @@ const permissions = require('../middleware/permissions');
 const HallsController = require('../controllers/HallsController');
 const MailServices = require('../classes/services/MailServices');
 const upload = require('../classes/services/uploader')
+
 // uploading images..
 //--------------------------------------------------------------------------------------
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./uploads/");
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, "./uploads/");
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + file.originalname);
+//     }
+// });
 // const fileFilter = (req, file, cb) => {
 //     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
 //         cb(null, true);
@@ -35,15 +36,8 @@ const storage = multer.diskStorage({
 //     fileFilter: fileFilter
 // });
 
-// var result = new Array()
-var singleUpload = upload.single('hallImage')
+//  var result = new Array()
 
-router.post('/upload', function (req, res, next) {
-    singleUpload(req, res, function (err) {
-        console.log(err);
-        return res.send(req.file.location)
-    })
-})
 
 router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res, next) => {
     result = []; // insert new hall into ddatabase with images limited to 6

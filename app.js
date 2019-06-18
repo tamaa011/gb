@@ -43,6 +43,7 @@ mongoose.connect(
 );
 var app = express();
 app.use(express.static('uploads'));
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
