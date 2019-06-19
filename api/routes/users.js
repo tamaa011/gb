@@ -57,7 +57,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         res.status(200).json({
                             result: true,
                             message: 'User sign up successfully',
-                            user: { ...user, ...{ token: token } },
+                            user: { ...user._doc, ...{ token: token } },
                         });
 
                     }).catch(error => {
