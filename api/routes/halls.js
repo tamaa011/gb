@@ -12,37 +12,10 @@ const HallsController = require('../controllers/HallsController');
 const MailServices = require('../classes/services/MailServices');
 const upload = require('../classes/services/uploader')
 
-// uploading images..
-//--------------------------------------------------------------------------------------
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, "./uploads/");
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, Date.now() + file.originalname);
-//     }
-// });
-// const fileFilter = (req, file, cb) => {
-//     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-//         cb(null, true);
-//     } else {
-//         cb(Error('image is not valid'), false);
-//     }
-// };
-// const upload = multer({
-//     storage: storage, limits: {
-//         fileSize: 1024 * 1024 * 30
-//     },
-//     fileFilter: fileFilter
-// });
-
-//  var result = new Array()
-
-
-router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res, next) => {
+router.post('/', upload.array('hallImage', 6), (req, res, next) => {
     result = []; // insert new hall into ddatabase with images limited to 6
     for (var i = 0; i < req.files.length; i++) {
-        result[i] = req.files[i].filename // this was path .. changed to file name for ignoring 'uploads' in url
+        result[i] = req.files[i].location // this was path .. changed to file name for ignoring 'uploads' in url
     }
 
     const newHall = new hall({
@@ -64,7 +37,6 @@ router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res
             hall: newHall
         });
     }).catch(error => {
-        console.log(error);
         res.status(500).json({ error: error });
     });
 });

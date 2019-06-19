@@ -45,8 +45,8 @@ var app = express();
 app.use(express.static('uploads'));
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '100mb', parameterLimit: 1000000 }));
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
