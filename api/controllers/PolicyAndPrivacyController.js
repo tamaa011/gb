@@ -29,7 +29,7 @@ class PolicyAndPrivacyController {
             query: { type: allRequestParams.type },
             data: allRequestParams
         }
-
+        
         let policyAndPrivacy = await this.PolicyAndPrivacyModelObject.getDataWithQuery(getDataWithQueryObj)
 
         policyAndPrivacy = policyAndPrivacy[0]

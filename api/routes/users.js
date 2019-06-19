@@ -131,7 +131,9 @@ router.post('/signin', (req, res, next) => {
 //------------------------------------------------------------------------------------------
 router.post('/', checkAuth, permissions, async (req, res, next) => { // get all users we have on database
 
-    User.find().select("_id userName userEmail userPassword").populate("userRole")
+    let limit = req.body.limit
+    let skip = req.body.limit * req.body.offset
+    User.find().select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });

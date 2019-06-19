@@ -22,7 +22,8 @@ module.exports = {
     order is important
   */
   seedersList: {
-    rolesActions,
-    routesActions
+    category,
+    // rolesActions,
+    // routesActions
   }
 };

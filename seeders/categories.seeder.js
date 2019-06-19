@@ -22,7 +22,8 @@ var data = [{
 ];
 
 var CategoriesSeeder = Seeder.extend({
-  shouldRun: function () {
+  shouldRun: async function () {
+    await category.deleteMany()
     return category.countDocuments().exec().then(count => count === 0);
   },
   run: function () {
