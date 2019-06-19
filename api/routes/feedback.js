@@ -8,7 +8,7 @@ const permissions = require('../middleware/permissions');
 router.post('/listFeedback', checkAuth, permissions, async (req, res, next) => {
     try {
         let feedbackArray = await FeedbackController.feedbackListing({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, data: feedbackArray });
+        return res.status(200).json({ result: true, message: "feedback loaded successfully", data: feedbackArray });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: error.message });
@@ -19,7 +19,7 @@ router.post('/listFeedback', checkAuth, permissions, async (req, res, next) => {
 router.post('/addFeedback', async (req, res, next) => {
     try {
         let feedbackArray = await FeedbackController.addFeedback({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, data: feedbackArray });
+        return res.status(200).json({ result: true, message: "feedback added successfully", data: feedbackArray });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: error.message });

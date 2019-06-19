@@ -19,7 +19,8 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
     User.find({ userEmail: req.body.userEmail }).exec().then(async user => {
         if (user.length >= 1) {
             return res.status(409).json({
-                error: 'Mail exists'
+                message: 'Mail exists',
+                result: false
             });
         } else {
 
@@ -28,7 +29,8 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
             bcrypt.hash(req.body.userPassword, 10, (err, hash) => {
                 if (err) {
                     return res.status(500).json({
-                        error: err
+                        error: "invalid password",
+                        result: false
                     });
                 } else {
                     const user = new User({
@@ -77,7 +79,8 @@ router.post('/signin', (req, res, next) => {
     User.find({ userEmail: req.body.userEmail }).populate('userRole').exec().then(user => {
         if (user.length < 1) {
             return res.status(401).json({
-                error: 'Auth failed'
+                message: 'wrong email or password',
+                result: false
             });
         }
 
@@ -85,7 +88,8 @@ router.post('/signin', (req, res, next) => {
 
             if (err) {
                 return res.status(401).json({
-                    error: 'Auth failed'
+                    message: 'wrong email or password',
+                    result: false
                 });
             }
 
@@ -102,19 +106,20 @@ router.post('/signin', (req, res, next) => {
 
                 return res.status(200).json({
                     message: 'Auth successfull',
+                    result: true,
                     user: { ...user, ...{ token: token } },
                 });
             }
 
             res.status(401).json({
-                error: 'Auth failed'
+                message: 'Auth failed',
+                result: false
             });
 
         });
 
     }).catch(error => {
-        console.log(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message, result: false });
     });
 
 });
@@ -129,13 +134,12 @@ router.post('/', checkAuth, permissions, async (req, res, next) => { // get all 
     User.find().select("_id userName userEmail userPassword").populate("userRole")
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
-                res.status(200).json(allUsers);
+                res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });
             } else {
-                res.status(404).json({ error: 'No Users found' });
+                res.status(404).json({ message: 'No Users found', result: false });
             }
         }).catch(error => {
-            console.log(error);
-            res.status(500).json({ error: error });
+            res.status(500).json({ message: error.message, result: false });
         });
 });
 
@@ -146,13 +150,13 @@ router.post('/listSystemUsers', checkAuth, permissions, async (req, res, next) =
     User.find({ isAdmin: true }).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
-                res.status(200).json(allUsers);
+                res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });
             } else {
-                res.status(404).json({ error: 'No Users found' });
+                res.status(404).json({ message: 'No Users found', result: false });
             }
         }).catch(error => {
             console.log(error);
-            res.status(500).json({ error: error });
+            res.status(500).json({ message: error.message, result: false });
         });
 });
 
@@ -160,10 +164,10 @@ router.post('/updatePassword', checkAuth, permissions, async (req, res, next) =>
     try {
 
         await UsersController.updatePassword({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ result: true, message: "user password updated" });
+        return res.status(200).json({ result: true, message: "user password updated", data: req.user });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: error.message });
 
     }
 });
@@ -173,7 +177,7 @@ router.post('/forgetPassword', async (req, res, next) => {
     try {
 
         await UsersController.forgetPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, message: "email has sent to you to reset your password" });
+        return res.status(200).json({ result: true, data: req.body.email, message: "email has sent to you to reset your password" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: (error.message) });
@@ -185,7 +189,7 @@ router.post('/verifyToken', async (req, res, next) => {
 
     try {
         await UsersController.validateToken({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, message: "valid token link" });
+        return res.status(200).json({ result: true, data: req.body.token, message: "valid token link" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: (error.message) });
@@ -197,7 +201,7 @@ router.post('/setPassword', async (req, res, next) => {
 
     try {
         await UsersController.setPassword({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, message: "user password updated" });
+        return res.status(200).json({ result: true, data: req.body.password, message: "user password updated" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: (error.message) });
@@ -210,10 +214,10 @@ router.post('/updateBasicInfo', checkAuth, permissions, async (req, res, next) =
     try {
 
         await UsersController.updateBasicInfo({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ result: true, message: "user Name updated" });
+        return res.status(200).json({ result: true, data: erq.userData, message: "user Name updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 });
@@ -222,10 +226,10 @@ router.post('/updateRole', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.updateUserRole({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ result: true, message: "user Role updated" });
+        return res.status(200).json({ result: true, data: req.userData, message: "user Role updated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ result: false, message: JSON.parse(error.message) });
+        return res.status(400).json({ result: false, message: (error.message) });
 
     }
 });
@@ -246,7 +250,7 @@ router.post('/deleteAdmin', checkAuth, permissions, async (req, res, next) => {
     try {
 
         await UsersController.deleteAdmin({ ...req.body, ...req.headers, ...req.params, ...req.query })
-        return res.status(200).json({ result: true, message: "user deleted resultfully" });
+        return res.status(200).json({ result: true, data: req.body._id, message: "user deleted successfully" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: (error.message) });
@@ -258,9 +262,9 @@ router.get('/:userID', checkAuth, (req, res, next) => { // get specific user inf
     const id = req.params.userID;
     User.findById(id).select("_id userName userEmail userPassword").exec().then(user => {
         if (user) {
-            res.status(200).json({ user });
+            res.status(200).json({ result: true, message: "user loaded successfully", data: user });
         } else {
-            res.status(404).json({ error: 'Not valid user id' });
+            res.status(404).json({ result: false, message: 'Not valid user id' });
         }
 
     }).catch(error => {
@@ -275,11 +279,13 @@ router.delete('/:userID', (req, res, nect) => {  // delete user from database by
     const id = req.params.userID;
     User.remove({ _id: id }).exec().then(result => {
         res.status(200).json({
-            message: 'User Deleted'
+            message: 'User Deleted',
+            result: true,
+            data: id
         });
     }).catch(error => {
         console.log(error);
-        res.status(500).json({ message: error });
+        res.status(500).json({ message: error.message, result: false });
     });
 });
 

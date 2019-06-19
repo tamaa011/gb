@@ -21,7 +21,8 @@ class FavoritesController {
             data: [favoriteObj]
         }
 
-       await this.favoritesModel.insertData(insertDataObj)
+       let data =await this.favoritesModel.insertData(insertDataObj)
+       return data
     }
 
 

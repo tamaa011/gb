@@ -22,7 +22,7 @@ router.post('/getPolicyAndPrivacy', async (req, res, next) => {
 
     try {
         let policyAndPrivacy = await PolicyAndPrivacyController.getPolicyAndPrivacy({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
-        return res.status(200).json({ result: true, data: policyAndPrivacy });
+        return res.status(200).json({ result: true, message: "your data was add successfully", data: policyAndPrivacy });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: error.message });
