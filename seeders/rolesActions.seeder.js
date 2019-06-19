@@ -39,7 +39,6 @@ var data = [
             ],
             Other :[
                 'Add Privacy Policy And Service Terms',
-                'Get Privacy Policy And Service Terms'
             ]
         },
     },

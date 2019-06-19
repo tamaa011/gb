@@ -18,7 +18,7 @@ router.post('/addPolicyAndPrivacy', checkAuth, permissions, async (req, res, nex
     }
 });
 
-router.post('/getPolicyAndPrivacy', checkAuth, permissions, async (req, res, next) => {
+router.post('/getPolicyAndPrivacy', async (req, res, next) => {
 
     try {
         let policyAndPrivacy = await PolicyAndPrivacyController.getPolicyAndPrivacy({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })

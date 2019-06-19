@@ -100,12 +100,8 @@ var data = [
     },
 
     {
-        route: '/category/addPolicyAndPrivacy',
+        route: '/policyAndPrivacy/addPolicyAndPrivacy',
         actions: 'Add Privacy Policy And Service Terms'
-    },
-    {
-        route: '/category/getPolicyAndPrivacy',
-        actions: 'Get Privacy Policy And Service Terms'
     },
 
     {
