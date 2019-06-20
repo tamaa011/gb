@@ -16,7 +16,7 @@ class UsersController {
 
     @_applyValidators({
         'required': ['userPassword', 'rePassword', 'newPassword'],
-        'match': ['userPassword', 'rePassword'],
+        'match': ['newPassword', 'rePassword'],
         'minLength': [['newPassword'], [6]],
         'maxLength': [['newPassword'], [15]]
     })

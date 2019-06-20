@@ -23,7 +23,7 @@ module.exports = {
   */
   seedersList: {
     category,
-    // rolesActions,
-    // routesActions
+    rolesActions,
+    routesActions
   }
 };

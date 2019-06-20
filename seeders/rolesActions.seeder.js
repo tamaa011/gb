@@ -35,11 +35,9 @@ var data = [
                 "BackGround Delete Admin",
                 "List Feedbacks",
                 "Push Notification",
-
+                "Add Privacy Policy And Service Terms",
             ],
-            Other :[
-                'Add Privacy Policy And Service Terms',
-            ]
+
         },
     },
     {
