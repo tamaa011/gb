@@ -50,7 +50,10 @@ var data = [
         actions: 'BackGround List Roles'
 
     },
-
+    {
+        route: '/halls/',
+        actions: 'Add New Hall'
+    },
     {
         route: '/rating/rateHalls',
         actions: 'Rate Hall'

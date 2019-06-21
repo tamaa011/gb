@@ -14,7 +14,6 @@ module.exports = async (req, res, next) => {
       modelToJoinRef: "userRole",
       query: { _id: userId }
     })
-    console.log(userAndRoles);
     
     let userActions = userAndRoles[0] ? userAndRoles[0].userRole.actions : []
     userActions = userActions[0]

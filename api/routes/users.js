@@ -216,7 +216,7 @@ router.post('/updateBasicInfo', checkAuth, permissions, async (req, res, next) =
     try {
 
         await UsersController.updateBasicInfo({ ...req.body, ...req.headers, ...req.params, ...req.query, ...req.userData })
-        return res.status(200).json({ result: true, data: erq.userData, message: "user Name updated" });
+        return res.status(200).json({ result: true, data: req.body.userName, message: "user Name updated" });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, message: (error.message) });

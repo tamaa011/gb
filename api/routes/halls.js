@@ -38,7 +38,8 @@ router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res
             result: true
         });
     }).catch(error => {
-        res.status(500).json({ message: error.message, result: true });
+        console.log(error);
+        res.status(500).json({ message: error.message, result: false });
     });
 });
 

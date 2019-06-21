@@ -128,8 +128,8 @@ class UsersController {
 
     @_applyValidators({
         'required': ['userName'],
-        'minLength': [['userName'], [6]],
-        'maxLength': [['userName'], [15]]
+        'minLength': [['userName'], [2]],
+        'maxLength': [['userName'], [30]]
     })
     async updateBasicInfo(allRequsetParams) {
 
@@ -146,8 +146,8 @@ class UsersController {
     @_applyValidators({
         'required': ['userPassword', 'userEmail', 'userName', 'userRole'],
         'email': ['userEmail'],
-        'minLength': [['userPassword', 'userName'], [6, 6]],
-        'maxLength': [['userPassword', 'userName'], [15, 15]]
+        'minLength': [['userPassword', 'userName'], [6, 2]],
+        'maxLength': [['userPassword', 'userName'], [15, 30]]
     })
     @_filter(['userPassword', 'userEmail', 'userName', 'userRole'])
     async addUser(allRequsetParams) {
