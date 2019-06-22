@@ -5,6 +5,9 @@ const FavoritesController = require('../controllers/FavoritesController');
 const checkAuth = require('../middleware/check-auth');
 const permissions = require('../middleware/permissions');
 
+const errorMap = {
+    "BulkWriteError": "Hall already in your favorite"
+}
 
 
 router.post('/addToFavorites', checkAuth, permissions, async (req, res, next) => {
@@ -13,7 +16,9 @@ router.post('/addToFavorites', checkAuth, permissions, async (req, res, next) =>
         let data = await FavoritesController.addToFavorites({ ...req.body, ...req.headers, ...req.query, ...req.params, ...req.userData })
         return res.status(200).json({ result: true, data: data, message: "favorites added successfully" });
     } catch (error) {
-        console.log(error);
+        if (errorMap[error.name])
+            error.message = errorMap[error.name]
+
         return res.status(400).json({ result: false, message: error.message });
     }
 });
