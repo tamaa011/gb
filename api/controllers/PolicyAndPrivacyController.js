@@ -35,7 +35,7 @@ class PolicyAndPrivacyController {
         policyAndPrivacy = policyAndPrivacy[0]
 
         if (policyAndPrivacy)
-            policyAndPrivacy = await this.PolicyAndPrivacyModelObject.replaceData(insertDataObj)
+            policyAndPrivacy = await this.PolicyAndPrivacyModelObject.replaceData(replaceDataObj)
 
         if (!policyAndPrivacy)
             policyAndPrivacy = await this.PolicyAndPrivacyModelObject.insertData(insertDataObj)
