@@ -16,7 +16,7 @@ class BaseModel {
 
         let modelRefObj = params.modelRef;
         let dataToInsert = params.data
-        let arrayOfData = await modelRefObj.insertMany(dataToInsert)        
+        let arrayOfData = await modelRefObj.insertMany(dataToInsert)
         return arrayOfData
 
     }
@@ -76,7 +76,14 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let modelToJoinRefObj = params.modelToJoinRef
         let query = params.query;
-        let arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`).lean()
+        let arrayOfData
+
+        if (params.normalJson)
+            arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`).lean()
+
+        if (!params.normalJson)
+            arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`)
+
         return arrayOfData;
 
     }

@@ -12,8 +12,8 @@ const hallSchema = mongoose.Schema({
     hallLocationLat: { type: String, required: true },
     hallSpecialOffers: { type: String },
     hallPhoneNumber: { type: String, required: true },
-    hallsAverageRating: { type: Number, require: true },
-    hallsRatingCounter: { type: Number, require: true },
+    hallsAverageRating: { type: Number, require: true, default: 0 },
+    hallsRatingCounter: { type: Number, require: true, default: 0 },
     hallImage: []
 });
 
