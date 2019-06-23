@@ -76,13 +76,7 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let modelToJoinRefObj = params.modelToJoinRef
         let query = params.query;
-        let arrayOfData
-
-        if (params.normalJson)
-            arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`).lean()
-
-        if (!params.normalJson)
-            arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`)
+        let arrayOfData = await modelRefObj.find(query).populate(`${modelToJoinRefObj}`).lean()
 
         return arrayOfData;
 
@@ -121,9 +115,22 @@ class BaseModel {
         let modelRefObj = params.modelRef;
         let modelToJoinRefObj = params.modelToJoinRef
         let query = params.query;
+        let populateObj
+
+        if (params.nestedModelToJoinPath)
+            populateObj = {
+                path: modelToJoinRefObj,
+                populate: { path: params.nestedModelToJoinPath, model: params.nestedModelToJoinRef }
+            }
+
+        else {
+            populateObj = {
+                path: modelToJoinRefObj
+            }
+        }
 
         let arrayOfData = await modelRefObj.find(query)
-            .populate(`${modelToJoinRefObj}`)
+            .populate(populateObj)
             .skip(skip)
             .limit(limit);
 

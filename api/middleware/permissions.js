@@ -11,7 +11,6 @@ module.exports = async (req, res, next) => {
 
     let userAndRoles = await baseModel.getDataWithQueryAndJoin({
       modelRef: user,
-      normalJson: true,
       modelToJoinRef: "userRole",
       query: { _id: userId }
     })

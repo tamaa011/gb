@@ -56,10 +56,12 @@ class FavoritesController {
 
         let getDataWithQueryPaginationAndJoinObj = {
             modelRef: this.modelRef,
-            limit: params.limit,
-            offset: params.offset,
+            limit: allRequestParams.limit,
+            offset: allRequestParams.offset,
             query: { userId: allRequestParams.userId },
-            modelToJoinRef: "hallId"
+            modelToJoinRef: "hallId",
+            nestedModelToJoinPath: "hallCategory",
+            nestedModelToJoinRef: "Category"
         }
 
         let userFavorites = await this.favoritesModel.getDataWithQueryPaginationAndJoin(getDataWithQueryPaginationAndJoinObj);
