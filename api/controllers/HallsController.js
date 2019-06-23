@@ -25,7 +25,6 @@ class HallsController {
     @_applyValidators({ 'required': ['hallName'] })
     async searchByName(allRequestParams) {
 
-        allRequestParams.hallName = allRequestParams.hallName.toLowerCase()
         let searchByNameParams = {
             limit: allRequestParams.limit,
             offset: allRequestParams.offset,
