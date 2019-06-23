@@ -114,11 +114,7 @@ var data = [
 
     {
         route: '/favorites/deleteFromFavorites',
-        actions: 'Remove favorite'
-    },
-    {
-        route: '/favorites/deleteFromFavorites',
-        actions: 'Remove favorite'
+        actions: 'Remove Favorite'
     },
     {
         route: '/feedback/listFeedback',
