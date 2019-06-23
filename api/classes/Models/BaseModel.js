@@ -228,7 +228,7 @@ class BaseModel {
         let limit = params.limit;
         let skip = params.offset * limit
         let objOfData = await modelRefObj
-            .find({ [`${fieldName}`]: { $regex: '.*' + `${fieldValue}` + '.*' } })
+            .find({ [`${fieldName}`]: { $regex: '.*' + `${fieldValue}` + '.*', $options: 'i' } })
             .sort({ [`${sortField}`]: sortOrder })
             .skip(skip)
             .limit(limit)
