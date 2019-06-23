@@ -16,17 +16,17 @@ class FavoritesController {
             hallId: allRequestParams.hallId,
             userId: allRequestParams.userId
         }
-        let insertDataObj = {
+        let createDataObj = {
             modelRef: this.modelRef,
-            data: [favoriteObj]
+            data: favoriteObj
         }
 
-       let data =await this.favoritesModel.insertData(insertDataObj)
-       return data
+        let data = await this.favoritesModel.createData(createDataObj)
+        return data
     }
 
 
-    @_applyValidators({ 'required': ['hallId'] })  
+    @_applyValidators({ 'required': ['hallId'] })
     async deleteFromFavorites(allRequestParams) {
 
         let favoriteObj = {
@@ -52,17 +52,19 @@ class FavoritesController {
             await this.favoritesModel.deleteData(deleteDataObj)
     }
 
-    async listFavorites(allRequestParams){
+    async listFavorites(allRequestParams) {
 
-        let getDataWithQueryObj = {
-            modelRef : this.modelRef,
-            query :{userId : allRequestParams.userId},
-            modelToJoinRef : "hallId"
+        let getDataWithQueryPaginationAndJoinObj = {
+            modelRef: this.modelRef,
+            limit: params.limit,
+            offset: params.offset,
+            query: { userId: allRequestParams.userId },
+            modelToJoinRef: "hallId"
         }
 
-        let userFavorites = await this.favoritesModel.getDataWithQueryAndJoin(getDataWithQueryObj);
+        let userFavorites = await this.favoritesModel.getDataWithQueryPaginationAndJoin(getDataWithQueryPaginationAndJoinObj);
         return userFavorites
-        
+
     }
 
 }

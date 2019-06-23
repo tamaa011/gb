@@ -114,6 +114,23 @@ class BaseModel {
 
     }
 
+    async getDataWithQueryPaginationAndJoin(params) {
+
+        let limit = params.limit;
+        let skip = params.offset * limit;
+        let modelRefObj = params.modelRef;
+        let modelToJoinRefObj = params.modelToJoinRef
+        let query = params.query;
+        
+        let arrayOfData = await modelRefObj.find(query)
+            .populate(`${modelToJoinRefObj}`)
+            .skip(skip)
+            .limit(limit);
+
+        return arrayOfData;
+
+    }
+    
     async getDataWithPaginationAndSort(params) {
 
         let limit = params.limit;
