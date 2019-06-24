@@ -1,6 +1,6 @@
 {
     "dataBaseUrl": "mongodb+srv://GroomAndBride:123123123@groomandbridecluster-jwktt.mongodb.net/test?retryWrites=true",
-    "fireBaseDataBaseUrl": "https://groomandbride-57ebd.firebaseio.com",
+    "fireBaseDataBaseUrl": "https://groom-and-bride-app.firebaseio.com",
     "adminEmail": "groomandbrideteam@gmail.com",
     "adminEmailPassword": "(TAMAA@team**#S",
     "forgetPasswordPage": "https://tamaa011.github.io/tamaaa.github.io/resetpassword.html",
