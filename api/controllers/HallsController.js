@@ -76,11 +76,22 @@ class HallsController {
         let query = { _id: allRequestParams.hallId }
         delete allRequestParams.hallId
 
+        let getDataWithQueryObj = {
+            query: query,
+            modelRef: this.modelRef
+        }
+
+        let data = await this.hallsModel.getDataWithQuery(getDataWithQueryObj)
+
+        if (!data || !data.length)
+            throw new Error('hall doesnt exist')
+
         let findCategoryObj = {
             _id: allRequestParams.hallCategory
         }
+        
         if (allRequestParams.hallCategory) {
-            let category = await CategoryControllers.findCategory(findCategoryObj)
+            var category = await CategoryControllers.findCategory(findCategoryObj)
             if (!category)
                 throw new Error('category doesnt exist')
         }
@@ -91,8 +102,16 @@ class HallsController {
             data: allRequestParams
         }
 
+        let getDataWithQueryAndJoinObj = {
+            query: query,
+            modelRef: this.modelRef,
+            modelToJoinRef:'hallCategory'
+        }
+
         let result = await this.hallsModel.updateData(updateDataParams);
-        return result
+
+        data = await this.hallsModel.getDataWithQueryAndJoin(getDataWithQueryAndJoinObj)        
+        return data
     }
 
     @_applyValidators({ 'required': ['hallsAverageRating'] })

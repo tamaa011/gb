@@ -11,6 +11,7 @@ const permissions = require('../middleware/permissions');
 const HallsController = require('../controllers/HallsController');
 const MailServices = require('../classes/services/MailServices');
 const upload = require('../classes/services/uploader')
+const earase = require('../classes/services/earser')
 
 router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res, next) => {
     result = []; // insert new hall into ddatabase with images limited to 6
@@ -106,17 +107,29 @@ router.get('/:HallID', (req, res, next) => { // get hall info by id
 });
 
 
+var onFileRemoveComplete = function() { 
+    console.log('deleted');
+    
+  }
+
 
 router.delete('/:HallID', (req, res, next) => { // delete hall by id
     const id = req.params.HallID;
 
     hall.findById(id).exec().then(doc => {  // get hall data from database by id
         if (doc) { // if hall data exsist
-            hall.deleteOne({ _id: id }).exec().then(result => { // delete hall data from database
+            hall.findOne({ _id: id }).exec().then(result => { // delete hall data from database
 
                 for (var i = 0; i < doc.hallImage.length; i++) { // loop on hall images 
-                    fs.unlink('./uploads/' + doc.hallImage[i], (error) => { // delete each image from uploads folder
+                    // fs.unlink('./uploads/' + doc.hallImage[i], (error) => { // delete each image from uploads folder
 
+                    // });
+                    let splittedArray = doc.hallImage[i].split('/')
+                    let key = splittedArray[splittedArray.length - 1]
+                                        
+                    earase.destroyImage(key, function (err) {
+                        if (err) { return next(err) }
+                        onFileRemoveComplete();
                     });
                 } // loop end
 

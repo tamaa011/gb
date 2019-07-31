@@ -234,8 +234,10 @@ class BaseModel {
         let sortOrder = params.sortOrder
         let limit = params.limit;
         let skip = params.offset * limit
+        let modelToJoinRef = params.modelToJoinRef
         let objOfData = await modelRefObj
             .find({ [`${fieldName}`]: { $regex: '.*' + `${fieldValue}` + '.*', $options: 'i' } })
+            .populate(modelToJoinRef)
             .sort({ [`${sortField}`]: sortOrder })
             .skip(skip)
             .limit(limit)
