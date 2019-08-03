@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const hall = require('../models/hall');
+const Category = require('../models/category');
+
 const mongoose = require('mongoose');
 const multer = require('multer');
 const fs = require('fs');
@@ -78,6 +80,30 @@ router.post('/searchByCategory', async (req, res, next) => {
     }
 })
 
+router.post('/numberOfHalls', async (req, res, next) => {
+
+    let count = await hall.count();
+    return res.status(200).json({ result: true, message: "Hall count Loaded Successfully", data: count });
+
+})
+
+router.post('/hallsPerCategory', async (req, res, next) => {
+
+    let result = await hall.aggregate(
+        [
+            { $group: { _id: "$hallCategory", hallCount: { $sum: 1 } } },
+
+        ]
+    )
+
+    for (let index = 0; index < result.length; index++) {
+        let category = await Category.findOne({ _id: mongoose.Types.ObjectId(result[index]._id) })
+        result[index]['category'] = category.name
+    }
+    return res.status(200).json({ result: true, message: "Hall Count Loaded Successfully", data: result });
+
+})
+
 
 router.post('/update', checkAuth, permissions, async (req, res, next) => {
 
@@ -107,10 +133,10 @@ router.get('/:HallID', (req, res, next) => { // get hall info by id
 });
 
 
-var onFileRemoveComplete = function() { 
+var onFileRemoveComplete = function () {
     console.log('deleted');
-    
-  }
+
+}
 
 
 router.delete('/:HallID', (req, res, next) => { // delete hall by id
@@ -126,7 +152,7 @@ router.delete('/:HallID', (req, res, next) => { // delete hall by id
                     // });
                     let splittedArray = doc.hallImage[i].split('/')
                     let key = splittedArray[splittedArray.length - 1]
-                                        
+
                     earase.destroyImage(key, function (err) {
                         if (err) { return next(err) }
                         onFileRemoveComplete();

@@ -3,6 +3,7 @@ const router = express.Router();
 const FeedbackController = require('../controllers/FeedbackController');
 const checkAuth = require('../middleware/check-auth');
 const permissions = require('../middleware/permissions');
+const feedback = require('../models/feedback');
 
 
 router.post('/listFeedback', checkAuth, permissions, async (req, res, next) => {
@@ -15,6 +16,13 @@ router.post('/listFeedback', checkAuth, permissions, async (req, res, next) => {
 
     }
 });
+
+router.post('/numberOfFeedback', async (req, res, next) => {
+
+    let count = await feedback.count();
+    return res.status(200).json({ result: true, message: "Feedback count Loaded Successfully", data: count });
+
+})
 
 router.post('/addFeedback', async (req, res, next) => {
     try {

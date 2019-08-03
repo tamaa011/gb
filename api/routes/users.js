@@ -133,7 +133,7 @@ router.post('/', checkAuth, permissions, async (req, res, next) => { // get all 
 
     let limit = req.body.limit
     let skip = req.body.limit * req.body.offset
-    User.find({isAdmin : false}).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
+    User.find({ isAdmin: false }).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });
@@ -144,6 +144,13 @@ router.post('/', checkAuth, permissions, async (req, res, next) => { // get all 
             res.status(500).json({ message: error.message, result: false });
         });
 });
+
+router.post('/numberOfUser', async (req, res, next) => {
+
+    let count = await User.count({ isAdmin: false });
+    return res.status(200).json({ result: true, message: "User count Loaded Successfully", data: count });
+
+})
 
 router.post('/listSystemUsers', checkAuth, permissions, async (req, res, next) => { // get all users we have on database
 
