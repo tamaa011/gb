@@ -15,12 +15,17 @@ const MailServices = require('../classes/services/MailServices');
 const upload = require('../classes/services/uploader')
 const earase = require('../classes/services/earser')
 
-router.post('/', checkAuth, permissions, upload.array('hallImage', 6), (req, res, next) => {
-    result = []; // insert new hall into ddatabase with images limited to 6
-    for (var i = 0; i < req.files.length; i++) {
-        result[i] = req.files[i].location // this was path .. changed to file name for ignoring 'uploads' in url
-    }
 
+var result = new Array();
+router.post('/UploadImages', upload.array('hallImage'), (req, res, next) => { 
+
+    //result = []; // insert new hall into ddatabase with images limited to 6
+    for(var i = 0; i < req.files.length; i++){
+        result[i] = req.files[i].filename // this was path .. changed to file name for ignoring 'uploads' in url
+    } 
+});
+
+router.post('/', checkAuth, permissions,  (req, res, next) => {
     const newHall = new hall({
         _id: new mongoose.Types.ObjectId(),
         hallName: req.body.hallName,
