@@ -17,15 +17,16 @@ const earase = require('../classes/services/earser')
 
 
 var result = new Array();
-router.post('/UploadImages', upload.array('hallImage'), (req, res, next) => { 
+router.post('/UploadImages', upload.array('hallImage'), (req, res, next) => {
 
     //result = []; // insert new hall into ddatabase with images limited to 6
-    for(var i = 0; i < req.files.length; i++){
-        result[i] = req.files[i].filename // this was path .. changed to file name for ignoring 'uploads' in url
-    } 
+    for (var i = 0; i < req.files.length; i++) {
+        result[i] = req.files[i].location  // this was path .. changed to file name for ignoring 'uploads' in url
+    }
+    res.send({ result: result })
 });
 
-router.post('/', checkAuth, permissions,  (req, res, next) => {
+router.post('/', checkAuth, permissions, (req, res, next) => {
     const newHall = new hall({
         _id: new mongoose.Types.ObjectId(),
         hallName: req.body.hallName,
@@ -39,6 +40,7 @@ router.post('/', checkAuth, permissions,  (req, res, next) => {
         hallPhoneNumber: req.body.hallPhoneNumber,
         hallImage: result
     });
+
     newHall.save().then(result => {
         res.status(200).json({
             message: 'Hall Saved Successfully',
