@@ -14,7 +14,8 @@ const hallSchema = mongoose.Schema({
     hallPhoneNumber: { type: String, required: true },
     hallsAverageRating: { type: Number, require: true, default: 0 },
     hallsRatingCounter: { type: Number, require: true, default: 0 },
-    hallImage: []
+    hallImage: [],
+    date : Date,
 });
 
 hallSchema.index({ "hallsAverageRating": -1, "hallsRatingCounter": -1 })

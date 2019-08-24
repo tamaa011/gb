@@ -11,7 +11,9 @@ const userSchema = mongoose.Schema({
     userPassword: { type: String, required: true },
     userRole: { type: mongoose.Schema.Types.ObjectId, ref: 'RolesActions' },
     isAdmin: { type: Boolean },
-    forgetPassToken: { type: String }
+    forgetPassToken: { type: String },
+    date : Date,
+
 });
 
 userSchema.pre('save', async function (next) {

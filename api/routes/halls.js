@@ -38,10 +38,12 @@ router.post('/', checkAuth, permissions, (req, res, next) => {
         hallLocationLat: req.body.hallLocationLat,
         hallSpecialOffers: req.body.hallSpecialOffers,
         hallPhoneNumber: req.body.hallPhoneNumber,
-        hallImage: result
+        hallImage: result,
+        date : new Date().toLocaleDateString()
     });
 
     newHall.save().then(result => {
+        newHall._doc.data = new Date(newHall._doc.data).toLocaleDateString()
         res.status(200).json({
             message: 'Hall Saved Successfully',
             data: newHall,
@@ -104,9 +106,11 @@ router.post('/hallsPerCategory', async (req, res, next) => {
     )
 
     for (let index = 0; index < result.length; index++) {
+
         let category = await Category.findOne({ _id: mongoose.Types.ObjectId(result[index]._id) })
         result[index]['category'] = category.name
     }
+    
     return res.status(200).json({ result: true, message: "Hall Count Loaded Successfully", data: result });
 
 })

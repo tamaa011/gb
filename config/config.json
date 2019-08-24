@@ -5,7 +5,7 @@
     "adminEmailPassword": "(TAMAA@team**#S",
     "forgetPasswordPage": "https://tamaa011.github.io/tamaaa.github.io/resetpassword.html",
     "forgetPassTokenExpiryDuration": 15,
-    "awsSecretAccessKey": "y8i+fOAwwPiSBn0P9aVYW+TjSkRL6ZAj5EukB7Wy",
-    "awsAccessKeyId": "AKIAJNYE5YANIELXWJHA",
-    "bucketName" : "groomandbride"
+    "awsSecretAccessKey": "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",
+    "awsAccessKeyId": "AKIAIK2USJVVLY7T3ALA",
+    "bucketName": "groomandbridetemp"
 }

@@ -2,15 +2,11 @@
 node_modules
 npm-debug.log
 
-<<<<<<< HEAD
-# Local development 
-=======
 # Local development
 *.env
->>>>>>> e090621d881c1976152e7a23b98d926db1154e06
 *.uploads
 .DS_Store
-
+config/config.json
 # Docker
 Dockerfile
 docker-compose.yml

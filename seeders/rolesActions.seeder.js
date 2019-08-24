@@ -6,7 +6,7 @@ var data = [
 
     {
         role: "root",
-        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb8f'),
+        _id: mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb8f'),
         actions: {
             Halls: [
                 "Add New Hall",
@@ -18,8 +18,6 @@ var data = [
                 "Delete Hall",
                 "Add Category"
             ],
-
-
             Users: [
                 "Add New User",
                 "List All Users",
@@ -39,10 +37,33 @@ var data = [
             ],
 
         },
+
+        sideNavActions: {
+            "Halls": [
+                "List halls",
+                "List halls by category",
+                "Search for hall",
+                "List halls categories",
+                "Add new hall"
+            ],
+            "Users": [
+                "List all users"
+            ],
+            "Admins": [
+                "List system admins",
+                "Add new admin"
+            ],
+            "Other": [
+                "List users feedback",
+                "Send notification",
+                "Privacy policy",
+                "Terms of service"
+            ]
+        }
     },
     {
         role: "admin",
-        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb91'),
+        _id: mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb91'),
         actions: {
             Halls: [
                 "Add New Hall",
@@ -66,10 +87,30 @@ var data = [
                 "List Feedbacks"
             ]
         },
+
+        sideNavActions: {
+            "Halls": [
+                "List halls",
+                "List halls by category",
+                "Search for hall",
+                "List halls categories",
+                "Add new hall"
+            ],
+            "Users": [
+                "List all users"
+            ],
+            "Admins": [
+                "List system admins",
+                "Add new admin"
+            ],
+            "Other": [
+                "List users feedback",
+            ]
+        }
     },
     {
         role: "worker",
-        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb93'),
+        _id: mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb93'),
         actions: {
             Halls: [
 
@@ -82,11 +123,22 @@ var data = [
                 "Change password",
                 "List Feedbacks"
             ]
+        },
+        sideNavActions: {
+            "Halls": [
+                "List halls",
+                "List halls by category",
+                "Search for hall",
+                "List halls categories",
+            ],
+            "Other": [
+                "List users feedback",
+            ]
         }
     },
     {
         role: "user",
-        _id : mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb95'),
+        _id: mongoose.Types.ObjectId('5cf93d7712d19e20dc2ccb95'),
         actions: {
             Halls: [
                 "List All Halls",

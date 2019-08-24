@@ -9,7 +9,8 @@ const actionsSchema = mongoose.Schema({
 
 const rolesSchema = mongoose.Schema({
     role: { type: String, required: true },
-    actions: [actionsSchema]
+    actions: [actionsSchema],
+    sideNavActions: [actionsSchema]
 
 });
 

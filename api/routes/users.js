@@ -5,7 +5,7 @@ var app = express();
 const router = express.Router();
 const User = require('../models/user');
 const rolesActions = require('../models/rolesActions');
-
+const conf = require('../../config/config.json')
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -39,7 +39,8 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         userEmail: req.body.userEmail,
                         userPassword: req.body.userPassword,
                         isAdmin: false,
-                        userRole: userRole._id
+                        userRole: userRole._id,
+                        date: new Date()
                     });
 
 
@@ -54,6 +55,7 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         });
 
                     user.save().then(reuslt => {
+                        user._doc.date = new Date(user.date).toLocaleDateString()
                         res.status(200).json({
                             result: true,
                             message: 'User sign up successfully',
@@ -103,7 +105,8 @@ router.post('/signin', (req, res, next) => {
                     {
                         expiresIn: "1h"
                     });
-
+                let actions = conf.sideNavActions
+                user[0]._doc.userRole.actions
                 return res.status(200).json({
                     message: 'Auth successfull',
                     result: true,
