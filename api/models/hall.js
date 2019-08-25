@@ -5,7 +5,7 @@ const hallSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     hallName: { type: String, required: true, index: true },
     hallAdress: { type: String, required: true },
-    hallCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    hallCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     hallDescription: { type: String, required: true },
     hallPrice: { type: Number, required: true },
     hallLocationLong: { type: String, required: true },
@@ -15,7 +15,7 @@ const hallSchema = mongoose.Schema({
     hallsAverageRating: { type: Number, require: true, default: 0 },
     hallsRatingCounter: { type: Number, require: true, default: 0 },
     hallImage: [],
-    date : Date,
+    date: Date,
 });
 
 hallSchema.index({ "hallsAverageRating": -1, "hallsRatingCounter": -1 })
