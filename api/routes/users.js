@@ -55,7 +55,6 @@ router.post('/signup', (req, res, next) => { // sign up new user and check if ex
                         });
 
                     user.save().then(reuslt => {
-                        user._doc.date = new Date(user.date).toLocaleDateString()
                         res.status(200).json({
                             result: true,
                             message: 'User sign up successfully',
@@ -136,7 +135,7 @@ router.post('/', checkAuth, permissions, async (req, res, next) => { // get all 
 
     let limit = req.body.limit
     let skip = req.body.limit * req.body.offset
-    User.find({ isAdmin: false }).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
+    User.find({ isAdmin: false }).select("_id userName userEmail userPassword date").populate("userRole").skip(skip).limit(limit)
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });
@@ -159,7 +158,7 @@ router.post('/listSystemUsers', checkAuth, permissions, async (req, res, next) =
 
     let limit = req.body.limit;
     let skip = req.body.limit * req.body.offset
-    User.find({ isAdmin: true }).select("_id userName userEmail userPassword").populate("userRole").skip(skip).limit(limit)
+    User.find({ isAdmin: true }).select("_id userName userEmail userPassword date").populate("userRole").skip(skip).limit(limit)
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });

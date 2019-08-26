@@ -39,11 +39,10 @@ router.post('/', checkAuth, permissions, (req, res, next) => {
         hallSpecialOffers: req.body.hallSpecialOffers,
         hallPhoneNumber: req.body.hallPhoneNumber,
         hallImage: result,
-        date : new Date().toLocaleDateString()
+        date : new Date()
     });
 
     newHall.save().then(result => {
-        newHall._doc.data = new Date(newHall._doc.data).toLocaleDateString()
         res.status(200).json({
             message: 'Hall Saved Successfully',
             data: newHall,

@@ -20,7 +20,7 @@ class FeedbackController {
 
         let feedbackArray = await this.feedbackModel.insertData({
             modelRef: this.modelRef,
-            data: allRequestParams
+            data: { ...allRequestParams, date: new Date() }
         })
 
         return feedbackArray
