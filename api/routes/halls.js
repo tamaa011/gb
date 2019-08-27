@@ -39,7 +39,7 @@ router.post('/', checkAuth, permissions, (req, res, next) => {
         hallSpecialOffers: req.body.hallSpecialOffers,
         hallPhoneNumber: req.body.hallPhoneNumber,
         hallImage: result,
-        date : new Date()
+        date: new Date()
     });
 
     newHall.save().then(result => {
@@ -109,7 +109,7 @@ router.post('/hallsPerCategory', async (req, res, next) => {
         let category = await Category.findOne({ _id: mongoose.Types.ObjectId(result[index]._id) })
         result[index]['category'] = category.name
     }
-    
+
     return res.status(200).json({ result: true, message: "Hall Count Loaded Successfully", data: result });
 
 })
@@ -169,11 +169,14 @@ router.delete('/:HallID', (req, res, next) => { // delete hall by id
                     });
                 } // loop end
 
-                return res.status(200).json({
-                    message: 'hall deleted with its images resultfully',
-                    result: true,
-                    data: id
-                });
+                hall.deleteMany({ _id: id }).then(res => {
+
+                    return res.status(200).json({
+                        message: 'hall deleted with its images Successfully',
+                        result: true,
+                        data: id
+                    });
+                })
 
             }).catch(error => {
                 console.log(error);

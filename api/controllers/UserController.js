@@ -154,7 +154,7 @@ class UsersController {
 
         let insertDataObj = {
             modelRef: this.modelRef,
-            data: { ...allRequsetParams, isAdmin: true }
+            data: { ...allRequsetParams, isAdmin: true  , date : new Date()}
         }
         let user = await this.userModel.createData(insertDataObj)
         return user
