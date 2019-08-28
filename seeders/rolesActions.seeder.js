@@ -49,7 +49,7 @@ var data = [
             "Users": [
                 "List all users"
             ],
-            "Admins": [
+            "Admin": [
                 "List system admins",
                 "Add new admin"
             ],
