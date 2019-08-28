@@ -99,12 +99,11 @@ var data = [
             "Users": [
                 "List all users"
             ],
-            "Admins": [
-                "List system admins",
-                "Add new admin"
-            ],
             "Other": [
                 "List users feedback",
+                "Send notification",
+                "Privacy policy",
+                "Terms of service"
             ]
         }
     },
@@ -129,10 +128,11 @@ var data = [
                 "List halls",
                 "List halls by category",
                 "Search for hall",
-                "List halls categories",
+                "List halls categories"
             ],
+
             "Other": [
-                "List users feedback",
+                "List users feedback"
             ]
         }
     },
