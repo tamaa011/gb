@@ -169,7 +169,7 @@ router.delete('/:HallID', (req, res, next) => { // delete hall by id
                     });
                 } // loop end
 
-                hall.deleteMany({ _id: id }).then(res => {
+                hall.deleteMany({ _id: id }).then(() => {
 
                     return res.status(200).json({
                         message: 'hall deleted with its images Successfully',
