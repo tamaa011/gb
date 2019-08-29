@@ -38,7 +38,7 @@ class FeedbackController {
         feedbackArray = feedbackArray.map(item => {
 
             return {
-                date: date ? new Date(item.date).toLocaleDateString() : null,
+                formatedDate: date ? new Date(item.date).toLocaleDateString() : null,
                 ...item._doc
             }
         })
