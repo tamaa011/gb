@@ -103,11 +103,25 @@ router.post('/hallsPerCategory', async (req, res, next) => {
 
         ]
     )
+    let categoryIds = []
 
     for (let index = 0; index < result.length; index++) {
 
         let category = await Category.findOne({ _id: mongoose.Types.ObjectId(result[index]._id) })
+        categoryIds.push(mongoose.Types.ObjectId(result[index]._id))
         result[index]['category'] = category.name
+    }
+
+    let categoryWithNoHalls = await Category.find({ _id: { $in: categoryIds } })
+
+    for (let index = 0; index < categoryWithNoHalls.length; index++) {
+
+        result.push({
+            category: categoryWithNoHalls[index].name,
+            hallCount: 0,
+            _id: categoryWithNoHalls[index]._id
+
+        })
     }
 
     return res.status(200).json({ result: true, message: "Hall Count Loaded Successfully", data: result });

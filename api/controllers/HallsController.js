@@ -19,6 +19,14 @@ class HallsController {
             modelToJoinRef: "hallCategory"
         }
         let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
+        hallsArray = hallsArray.map(item => {
+            let date = item.date
+            delete item.date
+            return {
+                date: date ? item.date.toLocaleString() : null,
+                ...item
+            }
+        })
         return hallsArray
     }
 
@@ -89,7 +97,7 @@ class HallsController {
         let findCategoryObj = {
             _id: allRequestParams.hallCategory
         }
-        
+
         if (allRequestParams.hallCategory) {
             var category = await CategoryControllers.findCategory(findCategoryObj)
             if (!category)
@@ -105,12 +113,12 @@ class HallsController {
         let getDataWithQueryAndJoinObj = {
             query: query,
             modelRef: this.modelRef,
-            modelToJoinRef:'hallCategory'
+            modelToJoinRef: 'hallCategory'
         }
 
         let result = await this.hallsModel.updateData(updateDataParams);
 
-        data = await this.hallsModel.getDataWithQueryAndJoin(getDataWithQueryAndJoinObj)        
+        data = await this.hallsModel.getDataWithQueryAndJoin(getDataWithQueryAndJoinObj)
         return data
     }
 
