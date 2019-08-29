@@ -112,7 +112,7 @@ router.post('/hallsPerCategory', async (req, res, next) => {
         result[index]['category'] = category.name
     }
 
-    let categoryWithNoHalls = await Category.find({ _id: { $in: categoryIds } })
+    let categoryWithNoHalls = await Category.find({ _id: { $nin: categoryIds } })
 
     for (let index = 0; index < categoryWithNoHalls.length; index++) {
 
