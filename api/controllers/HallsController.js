@@ -20,11 +20,9 @@ class HallsController {
         }
         let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
         hallsArray = hallsArray.map(item => {
-            let date = item.date
-            delete item.date
             return {
-                date: date ? item.date.toLocaleString() : null,
-                ...item
+               formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
+                ...item._doc
             }
         })
         return hallsArray

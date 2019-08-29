@@ -170,11 +170,10 @@ router.post('/listSystemUsers', checkAuth, permissions, async (req, res, next) =
         .exec().then(allUsers => {
             if (allUsers.length >= 0) {
                 allUsers = allUsers.map(item => {
-                    let date = item.date
-                    delete item.date
+
                     return {
-                        date: date ? item.date.toLocaleString() : null,
-                        ...item
+                        formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
+                        ...item._doc
                     }
                 })
                 res.status(200).json({ data: allUsers, message: 'Users Loaded Successfully', result: true });

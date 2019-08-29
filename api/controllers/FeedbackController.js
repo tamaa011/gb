@@ -36,11 +36,10 @@ class FeedbackController {
         }
         let feedbackArray = await this.feedbackModel.getDataWithPagination(getDataWithPagination);
         feedbackArray = feedbackArray.map(item => {
-            let date = item.date
-            delete item.date
+
             return {
-                date: date ? item.date.toLocaleString() : null,
-                ...item
+                date: date ? new Date(item.date).toLocaleDateString() : null,
+                ...item._doc
             }
         })
         return feedbackArray
