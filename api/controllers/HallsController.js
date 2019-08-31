@@ -21,7 +21,7 @@ class HallsController {
         let hallsArray = await this.hallsModel.getDataWithPaginationAndJoinAndSort(getDataWithPaginationAndJoinAndSortParams);
         hallsArray = hallsArray.map(item => {
             return {
-               formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
+                formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
                 ...item._doc
             }
         })
@@ -47,6 +47,12 @@ class HallsController {
         if (!hallsArray || !hallsArray.length)
             throw new Error("hall with this name not found")
 
+        hallsArray = hallsArray.map(item => {
+            return {
+                formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
+                ...item._doc
+            }
+        })
         return hallsArray
 
     }
@@ -71,6 +77,12 @@ class HallsController {
         if (!hallsArray || !hallsArray.length)
             throw new Error("hall with this category not found")
 
+        hallsArray = hallsArray.map(item => {
+            return {
+                formatedDate: item.date ? new Date(item.date).toLocaleDateString() : null,
+                ...item._doc
+            }
+        })
         return hallsArray
 
     }
